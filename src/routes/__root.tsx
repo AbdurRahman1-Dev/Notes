@@ -11,12 +11,20 @@ export const Route = createRootRouteWithContext<{
   component: () => (
     <>
       <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{" "}
-        <Link to="/" className="[&.active]:font-bold">
-          dashboard
-        </Link>{" "}
+        <ul>
+          <li>
+            {" "}
+            <Link to="/" className="[&.active]:font-bold">
+              Home
+            </Link>{" "}
+          </li>
+          <li>
+            {" "}
+            <Link to="/dashboard" className="[&.active]:font-bold">
+              dashboard
+            </Link>{" "}
+          </li>
+        </ul>
       </div>
       <hr />
       <Outlet />

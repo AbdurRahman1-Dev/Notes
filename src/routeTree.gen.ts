@@ -14,8 +14,8 @@ import { Route as rootRoute } from "./routes/__root";
 import { Route as ProfileImport } from "./routes/profile";
 import { Route as DashboardImport } from "./routes/_dashboard";
 import { Route as IndexImport } from "./routes/index";
-import { Route as DashboardDashboardRouteImport } from "./routes/_dashboard/dashboard/route";
-z;
+import { Route as DashboardDashboardIndexImport } from "./routes/_dashboard/dashboard/index";
+
 // Create/Update Routes
 
 const ProfileRoute = ProfileImport.update({
@@ -33,8 +33,8 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
-const DashboardDashboardRouteRoute = DashboardDashboardRouteImport.update({
-  path: "/dashboard",
+const DashboardDashboardIndexRoute = DashboardDashboardIndexImport.update({
+  path: "/dashboard/",
   getParentRoute: () => DashboardRoute,
 } as any);
 
@@ -54,8 +54,8 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ProfileImport;
       parentRoute: typeof rootRoute;
     };
-    "/_dashboard/dashboard": {
-      preLoaderRoute: typeof DashboardDashboardRouteImport;
+    "/_dashboard/dashboard/": {
+      preLoaderRoute: typeof DashboardDashboardIndexImport;
       parentRoute: typeof DashboardImport;
     };
   }
@@ -65,7 +65,7 @@ declare module "@tanstack/react-router" {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  DashboardRoute.addChildren([DashboardDashboardRouteRoute]),
+  DashboardRoute.addChildren([DashboardDashboardIndexRoute]),
   ProfileRoute,
 ]);
 

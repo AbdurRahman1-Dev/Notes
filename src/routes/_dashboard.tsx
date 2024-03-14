@@ -8,7 +8,9 @@ export default function Dashboard() {
   return (
     <div>
       _layout1
-      <div>{/* <Outlet /> */}</div>
+      <div>
+        <Outlet />
+      </div>
     </div>
   );
 }
