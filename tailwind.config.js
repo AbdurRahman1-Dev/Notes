@@ -20,6 +20,7 @@ module.exports = {
           colors: {
             background: "#2c2c2c",
             foreground: "#f3f3f3",
+            secondarybg: "#393939",
             primary: {
               DEFAULT: "#0582de",
               foreground: "#ffffff",
@@ -45,8 +46,9 @@ module.exports = {
           extend: "light",
           layout: {}, // dark theme layout tokens
           colors: {
-            background: "#ebebeb",
+            background: "hsl(0deg 0% 90.55%)",
             foreground: "#1d1d1d",
+            secondarybg: "#E7E7E7",
             primary: {
               DEFAULT: "#0582de",
               foreground: "#ffffff",
