@@ -10,20 +10,18 @@ export const Route = createFileRoute("/signin")({
 
 const Signin = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const { loginWithGoogle, logout } = useContext(AuthContext);
+  const { createAccount, logout } = useContext(AuthContext);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const userID = (Math.random() * 32).toString(16);
 
-    if (email && password) {
-      loginWithGoogle(userID, email, password);
-    }
+    createAccount(email, password, name);
   }
 
   return (
@@ -33,6 +31,12 @@ const Signin = () => {
         <p className="font-semibold text-xl">Save your Dailys Here</p>
 
         <form onSubmit={handleSubmit} className="w-full space-y-4">
+          <Input
+            onChange={(e) => setName(e.target.value)}
+            type="text "
+            label="name"
+            name="name"
+          />{" "}
           <Input
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -57,7 +61,11 @@ const Signin = () => {
             type={isVisible ? "text" : "password"}
             className="max-w-xs"
           />
-          <input type="submit" value={"create"} />
+          <input
+            className="btn btn bg-red-600"
+            type="submit"
+            value={"create"}
+          />
           {/* <button
             onClick={loginWithGoogle}
             aria-label="Sign in with Google"

@@ -12,7 +12,7 @@ import { Link } from "@tanstack/react-router";
 const Sidebar = () => {
   const itemClasses = {
     base: "py-0 w-full ",
-    title: "font-semibold text-medium ",
+    title: "font-semibold text-medium hover:text-white",
     trigger:
       " p-1  transition-all duration-250  data-[hover=true]:bg-primary data-[hover=true]:text-white rounded-lg  flex items-center flex-row-reverse ",
     indicator: "text-medium rotate-[180deg] text-gray-200",
@@ -98,31 +98,43 @@ const Sidebar = () => {
           <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
             <GalleryVerticalEnd size={15} /> <span>Private</span>
           </p>
-          <Accordion selectionMode={"multiple"} itemClasses={itemClasses}>
-            <AccordionItem key="1" aria-label="Accordion 1" title="Accordion 1">
+          <Accordion
+            showDivider={false}
+            selectionMode={"multiple"}
+            itemClasses={itemClasses}
+          >
+            <AccordionItem key="1" aria-label="Accordion 1" title="my dailys">
               <ul>
                 <li className=" px-2 ">
                   <Link>
                     <Button
-                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-0  font-medium "
+                      // size="sm"
+                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
                       startContent={<ChevronRight size={16} />}
                     >
-                      Notes
+                      Search Notes
+                    </Button>
+                    {/* <ChevronRight size={16} /> <span>One</span> */}
+                  </Link>
+                </li>{" "}
+              </ul>
+            </AccordionItem>{" "}
+            <AccordionItem key="2" aria-label="Accordion 1" title="js">
+              <ul>
+                <li className=" px-2 ">
+                  <Link>
+                    <Button
+                      // size="sm"
+                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
+                      startContent={<ChevronRight size={16} />}
+                    >
+                      Search Notes
                     </Button>
                     {/* <ChevronRight size={16} /> <span>One</span> */}
                   </Link>
                 </li>{" "}
               </ul>
             </AccordionItem>
-            <AccordionItem key="2" aria-label="Accordion 2" title="Accordion 2">
-              {defaultContent}
-            </AccordionItem>
-            <AccordionItem key="3" aria-label="Accordion 3" title="Accordion 3">
-              {defaultContent}
-            </AccordionItem>{" "}
-            <AccordionItem key="4" aria-label="Accordion 3" title="Accordion 3">
-              {defaultContent}
-            </AccordionItem>{" "}
           </Accordion>
         </div>
         {/* <div className="mt-4 bg-secondarybg h-fit w-full">

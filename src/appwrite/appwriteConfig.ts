@@ -1,5 +1,5 @@
 // Web SDK
-import { Client, Account } from "appwrite";
+import { Client, Account, ID, Permission, Role } from "appwrite";
 
 const client = new Client()
   .setEndpoint(import.meta.env.VITE_API_END_POINT) // Your API Endpoint
@@ -7,4 +7,4 @@ const client = new Client()
 
 const account = new Account(client);
 
-export { account, client };
+export { account, client, ID, Permission, Role };

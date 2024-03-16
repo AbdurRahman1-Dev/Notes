@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_dashboard")({
 export default function Dashboard() {
   return (
     <main className="bg-background">
-      <div className="grid sm:grid-cols-12 gap-5">
+      <div className="grid sm:grid-cols-12 gap-3">
         <div className="w-[90%] md:col-span-3 bg-secondarybg  h-screen sticky overflow-auto top-0 left-0 shadow-md">
           <Sidebar />
         </div>
