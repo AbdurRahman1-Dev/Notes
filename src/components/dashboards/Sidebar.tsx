@@ -1,24 +1,28 @@
 import { Button } from "@nextui-org/react";
-import {
-  ChevronRight,
-  CirclePlus,
-  GalleryVerticalEnd,
-  Search,
-  Star,
-} from "lucide-react";
-import { Accordion, AccordionItem } from "@nextui-org/react";
-import { Link } from "@tanstack/react-router";
+import { CirclePlus, Search } from "lucide-react";
+import { useMutation, useQuery } from "react-query";
+import { getNotes, handleCreateNote } from "../../api/notes";
+import NotesFolder from "./NotesFolder";
+import { useNavigate } from "@tanstack/react-router";
+import { queryClient } from "../../main";
 
 const Sidebar = () => {
-  const itemClasses = {
-    base: "py-0 w-full ",
-    title: "font-semibold text-medium hover:text-white",
-    trigger:
-      " p-1  transition-all duration-250  data-[hover=true]:bg-primary data-[hover=true]:text-white rounded-lg  flex items-center flex-row-reverse ",
-    indicator: "text-medium rotate-[180deg] text-gray-200",
-    content: "ps-3 text-small ",
-  };
-  const defaultContent = "open";
+  const navigate = useNavigate();
+  const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
+  console.log(notes?.documents);
+
+  const { mutate } = useMutation({
+    mutationKey: "notes",
+    mutationFn: handleCreateNote,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["notes"],
+      });
+      navigate({
+        to: `/dashboard/${data?.$id}`,
+      });
+    },
+  });
 
   return (
     <aside className="flex ">
@@ -27,6 +31,7 @@ const Sidebar = () => {
       </div> */}
 
       <div className="flex flex-col  gap-4 relative p-3 w-full h-full">
+        {/* sidebar settings */}
         <div className="sticky top-0 left-0 overflow-hidden bg-secondarybg z-20  py-2">
           <div>
             <h2 className="font-semibold text-2xl">Abdur Rahman</h2>
@@ -42,6 +47,7 @@ const Sidebar = () => {
             </div>{" "}
             <div>
               <Button
+                onClick={() => mutate()}
                 className="bg-inherit hover:bg-primary hover:text-white w-full  justify-start p-0 px-2 font-medium text-base mb-2"
                 startContent={<CirclePlus size={20} />}
               >
@@ -51,92 +57,23 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-        <div>
-          <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
-            <Star size={15} /> <span>Favourites</span>
-          </p>
-          <Accordion
-            showDivider={false}
-            selectionMode={"multiple"}
-            itemClasses={itemClasses}
-          >
-            <AccordionItem key="1" aria-label="Accordion 1" title="my dailys">
-              <ul>
-                <li className=" px-2 ">
-                  <Link>
-                    <Button
-                      // size="sm"
-                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
-                      startContent={<ChevronRight size={16} />}
-                    >
-                      Search Notes
-                    </Button>
-                    {/* <ChevronRight size={16} /> <span>One</span> */}
-                  </Link>
-                </li>{" "}
-              </ul>
-            </AccordionItem>{" "}
-            <AccordionItem key="2" aria-label="Accordion 1" title="js">
-              <ul>
-                <li className=" px-2 ">
-                  <Link>
-                    <Button
-                      // size="sm"
-                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
-                      startContent={<ChevronRight size={16} />}
-                    >
-                      Search Notes
-                    </Button>
-                    {/* <ChevronRight size={16} /> <span>One</span> */}
-                  </Link>
-                </li>{" "}
-              </ul>
-            </AccordionItem>
-          </Accordion>
-        </div>{" "}
-        <div>
-          <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
-            <GalleryVerticalEnd size={15} /> <span>Private</span>
-          </p>
-          <Accordion
-            showDivider={false}
-            selectionMode={"multiple"}
-            itemClasses={itemClasses}
-          >
-            <AccordionItem key="1" aria-label="Accordion 1" title="my dailys">
-              <ul>
-                <li className=" px-2 ">
-                  <Link>
-                    <Button
-                      // size="sm"
-                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
-                      startContent={<ChevronRight size={16} />}
-                    >
-                      Search Notes
-                    </Button>
-                    {/* <ChevronRight size={16} /> <span>One</span> */}
-                  </Link>
-                </li>{" "}
-              </ul>
-            </AccordionItem>{" "}
-            <AccordionItem key="2" aria-label="Accordion 1" title="js">
-              <ul>
-                <li className=" px-2 ">
-                  <Link>
-                    <Button
-                      // size="sm"
-                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
-                      startContent={<ChevronRight size={16} />}
-                    >
-                      Search Notes
-                    </Button>
-                    {/* <ChevronRight size={16} /> <span>One</span> */}
-                  </Link>
-                </li>{" "}
-              </ul>
-            </AccordionItem>
-          </Accordion>
-        </div>
+        {/* sidebar favourites list */}
+
+        <NotesFolder
+          notes={notes}
+          isError={isError}
+          isLoading={isLoading}
+          type={"Favourite"}
+        ></NotesFolder>
+
+        {/* sidebar private list */}
+
+        <NotesFolder
+          notes={notes}
+          isError={isError}
+          isLoading={isLoading}
+          type={"Private"}
+        ></NotesFolder>
         {/* <div className="mt-4 bg-secondarybg h-fit w-full">
           <div className="fixed bottom-0 left-10">
             <Button

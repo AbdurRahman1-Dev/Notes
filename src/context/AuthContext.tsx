@@ -1,11 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import {
-  account,
-  client,
-  ID,
-  Permission,
-  Role,
-} from "../appwrite/appwriteConfig";
+import { account, client, ID } from "../appwrite/appwriteConfig";
 
 const AuthContext = createContext();
 
@@ -15,10 +9,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkLoggedInUser = async () => {
       try {
-        const session = await account.get();
+        const session = await account.getSession("current");
         setUser(session);
       } catch (error) {
-        console.log("Appwrite serive :: getCurrentUser :: error", error);
+        console.log(" getCurrentUser :: error", error);
       }
 
       return null;
@@ -27,19 +21,23 @@ const AuthProvider = ({ children }) => {
     checkLoggedInUser();
   }, [account]);
 
-  // const loginWithGoogle = async (email, password, name) => {
-  //   try {
-  //     // Create account with Appwrite
-  //     const result = await account.create(ID.unique(), email, password, name);
-  //     console.log(result);
+  const loginWithGoogle = async (email, password, name) => {
+    try {
+      // Use Appwrite to create a new session with Google access token
+      await account.createOAuth2Session(
+        "google",
+        "http://localhost:5173/dashboard",
+        "http://localhost:5173/signin"
+      );
 
-  //     if(result) {
-
-  //     }
-  //     // After successful signup, you might want to redirect the user
-  //   } catch (error) {
-  //     console.error("Signup Error:", error);
-  //   }
+      // Fetch user data and update state
+      const session = await account.getSession("current");
+      setUser(session);
+      console.log(session);
+    } catch (error) {
+      console.error("Error logging in with Google:", error);
+    }
+  };
 
   const login = async (email, password) => {
     try {
@@ -88,8 +86,7 @@ const AuthProvider = ({ children }) => {
         ID.unique(),
         email,
         password,
-        name,
-        [Permission.read(Role.any())]
+        name
       );
 
       if (userAccount) {
@@ -108,7 +105,7 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, createAccount }}>
+    <AuthContext.Provider value={{ user, createAccount, loginWithGoogle }}>
       {children}
     </AuthContext.Provider>
   );

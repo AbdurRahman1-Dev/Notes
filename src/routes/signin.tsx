@@ -16,7 +16,7 @@ const Signin = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const { createAccount, logout } = useContext(AuthContext);
+  const { createAccount, logout, loginWithGoogle } = useContext(AuthContext);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -66,7 +66,7 @@ const Signin = () => {
             type="submit"
             value={"create"}
           />
-          {/* <button
+          <button
             onClick={loginWithGoogle}
             aria-label="Sign in with Google"
             className="flex items-center gap-3 bg-primary rounded-full p-0.5 pr-4 transition-colors duration-300 hover:bg-google-button-blue-hover"
@@ -100,7 +100,7 @@ const Signin = () => {
             <span className="text-sm text-white tracking-wider">
               Sign in with Google
             </span>
-          </button>{" "} */}
+          </button>{" "}
         </form>
       </div>
     </div>

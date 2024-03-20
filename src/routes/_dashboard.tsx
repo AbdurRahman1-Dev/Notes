@@ -9,7 +9,7 @@ export default function Dashboard() {
   return (
     <main className="bg-background">
       <div className="grid sm:grid-cols-12 gap-3">
-        <div className="w-[90%] md:col-span-3 bg-secondarybg  h-screen sticky overflow-auto top-0 left-0 shadow-md">
+        <div className="w-[90%] md:col-span-3 bg-secondarybg  h-screen sticky overflow-auto top-0 left-0 shadow-md hidden md:block">
           <Sidebar />
         </div>
         <div className="md:col-span-9 p-5 ">
