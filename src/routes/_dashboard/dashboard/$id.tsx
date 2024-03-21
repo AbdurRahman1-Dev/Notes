@@ -20,6 +20,9 @@ import {
 import { ThemeSwitcher } from "../../../components/ThemeSwitcher";
 import EditNote from "../../../components/dashboards/EditNote";
 import ParentIdSelect from "../../../components/dashboards/ParentIdSelect";
+import Title from "../../../components/Title";
+
+import SkeletonLoading from "../../../components/SkeletonLoading";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
   component: () => <ViewNote></ViewNote>,
@@ -32,22 +35,21 @@ export default function ViewNote() {
   const { data: allNote } = useQuery("notes", getNotes, {});
 
   // get single note
-  const { data: note } = useQuery(["notes", id], () => getSingleNote(id), {});
+  const { data: note, isLoading } = useQuery(
+    ["notes", id],
+    () => getSingleNote(id),
+    {}
+  );
 
   // set data
   const [title, setTitle] = useState<string>(
     note?.title !== "" ? note?.title : ""
   );
   const [parentID, setParentID] = useState<string>(
-    note?.$id !== "" ? note?.$id : null
+    note?.parentID !== "" ? note?.parentID : ""
   );
 
   const [blocks, setBlocks] = useState<Block[]>([]);
-
-  // filtered notes
-  const filNotes = allNote?.documents?.filter(
-    (filNotes) => filNotes.$id !== id
-  );
 
   // new data
   let newData = {
@@ -80,7 +82,6 @@ export default function ViewNote() {
       });
     },
   });
-  console.log(note);
 
   return (
     <main>
@@ -90,11 +91,12 @@ export default function ViewNote() {
         <div className="flex items-center justify-between justify-items-center gap-2 ">
           {/* Save Button */}
           {isNoteLoading ? (
-            <Button color="primary" startContent={<Save />} isLoading>
+            <Button size="sm" color="primary" startContent={<Save />} isLoading>
               Saving...
             </Button>
           ) : (
             <Button
+              size="sm"
               color="primary"
               startContent={<Save />}
               onClick={() => mutate()}
@@ -107,34 +109,28 @@ export default function ViewNote() {
           <EditNote deleteMutate={deleteMutate} mutate={mutate} />
         </div>
       </div>
-      <div className="space-y-4 mb-5">
-        <input
-          onChange={(e) => {
-            setTitle(e.target.value);
-            const handler = setTimeout(() => {
-              mutate();
-            }, 100);
-
-            return () => {
-              clearTimeout(handler);
-            };
-          }}
-          type="text"
-          placeholder="Untitled"
-          className="w-full border-0 h-full bg-background p-1 text-4xl font-semibold  focus:border-0 border-none outline-0"
-          name="title"
-          defaultValue={note?.title !== "" ? note?.title : ""}
-        />
-        <div>
-          <ParentIdSelect
-            filNotes={filNotes}
-            mutate={mutate}
-            id={id}
-            setParentID={setParentID}
-          />
+      {isLoading ? (
+        <div className=" space-y-5">
+          <SkeletonLoading />
+          <SkeletonLoading />
         </div>
-      </div>
-      <Editor setBlocks={setBlocks} note={note} mutate={mutate} />
+      ) : (
+        <div className="space-y-4 mb-5">
+          <Title setTitle={setTitle} mutate={mutate} note={note}></Title>
+          <div>
+            <ParentIdSelect
+              allNote={allNote}
+              mutate={mutate}
+              // filNote={filNote}
+              note={note}
+              parentID={parentID}
+              setParentID={setParentID}
+            />
+          </div>
+        </div>
+      )}
+
+      <Editor setBlocks={setBlocks} note={note} isLoading={isLoading} />
     </main>
   );
 }

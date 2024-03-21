@@ -1,6 +1,7 @@
 import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight, Star } from "lucide-react";
+import SkeletonLoading from "../SkeletonLoading";
 
 const NotesFolder = ({ notes, isError, isLoading, type }) => {
   // items classes
@@ -20,7 +21,7 @@ const NotesFolder = ({ notes, isError, isLoading, type }) => {
         <Star size={15} /> <span>{type}</span>
       </p>
       {isLoading ? (
-        <p>Loading..</p>
+        <SkeletonLoading />
       ) : notes?.documents?.length > 0 ? (
         <Accordion
           showDivider={false}

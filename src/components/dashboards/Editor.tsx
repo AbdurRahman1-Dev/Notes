@@ -11,21 +11,12 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useParams } from "@tanstack/react-router";
 import { useTheme } from "next-themes";
+import SkeletonLoading from "../SkeletonLoading";
 
-const Editor = ({ mutate, setBlocks, note }) => {
-  const [initialContent, setInitialContent] = useState<Block[]>([]);
+const Editor = ({ setBlocks, note, isLoading }) => {
   const { id } = useParams();
+  const [initialContent, setInitialContent] = useState<Block[]>([]);
   const { theme, setTheme } = useTheme();
-
-  // const { mutate, isLoading } = useMutation({
-  //   mutationKey: ["notes", note?.$id],
-  //   mutationFn: () => updateNotes(note?.$id, newData),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["notes"],
-  //     });
-  //   },
-  // });
 
   const parsedContent = useMemo(() => {
     if (note?.contents) {
@@ -42,7 +33,7 @@ const Editor = ({ mutate, setBlocks, note }) => {
 
   useEffect(() => {
     if (parsedContent?.length > 0) {
-      editor.replaceBlocks(editor.document, parsedContent);
+      editor.replaceBlocks(editor?.document, parsedContent);
     }
   }, [parsedContent, note, id]);
 
@@ -51,7 +42,7 @@ const Editor = ({ mutate, setBlocks, note }) => {
       <BlockNoteView
         onChange={() => {
           // Saves the document JSON to state.
-          setBlocks(editor.document);
+          setBlocks(editor?.document);
           // const handler = setTimeout(() => {
           //   mutate();
           // }, 100);
