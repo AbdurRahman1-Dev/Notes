@@ -9,7 +9,6 @@ import { queryClient } from "../../main";
 const Sidebar = () => {
   const navigate = useNavigate();
   const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
-  console.log(notes?.documents);
 
   const { mutate } = useMutation({
     mutationKey: "notes",

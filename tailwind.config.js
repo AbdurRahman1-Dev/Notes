@@ -46,9 +46,9 @@ module.exports = {
           extend: "light",
           layout: {}, // dark theme layout tokens
           colors: {
-            background: "hsl(0deg 0% 90.55%)",
+            background: "#ffffff",
             foreground: "#1d1d1d",
-            secondarybg: "#E7E7E7",
+            secondarybg: "#fbfafb",
             primary: {
               DEFAULT: "#0582de",
               foreground: "#ffffff",

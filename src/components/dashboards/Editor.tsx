@@ -5,50 +5,46 @@ import {
   lightDefaultTheme,
   useCreateBlockNote,
 } from "@blocknote/react";
-import { Block } from "@blocknote/core";
+import { Block, BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import "@blocknote/react/style.css";
-import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
-import { getSingleNote, updateNotes } from "../../api/notes";
-import { queryClient } from "../../main";
+import { useEffect, useMemo, useState } from "react";
 
-const Editor = ({ title, folder, id }) => {
-  const [blocks, setBlocks] = useState<Block[]>([]);
+import { useParams } from "@tanstack/react-router";
+import { useTheme } from "next-themes";
 
-  const { data: note } = useQuery(["notes", id], () => getSingleNote(id), {});
+const Editor = ({ mutate, setBlocks, note }) => {
+  const [initialContent, setInitialContent] = useState<Block[]>([]);
+  const { id } = useParams();
+  const { theme, setTheme } = useTheme();
 
-  let newData = {
-    title,
-    parentID: "",
-    tags: ["text"],
-    contents: JSON.stringify(blocks),
-    userId: "",
-  };
+  // const { mutate, isLoading } = useMutation({
+  //   mutationKey: ["notes", note?.$id],
+  //   mutationFn: () => updateNotes(note?.$id, newData),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["notes"],
+  //     });
+  //   },
+  // });
 
-  // if (note && note?.contents !== null) {
-  //   let pars = JSON.parse(note?.contents);
+  const parsedContent = useMemo(() => {
+    if (note?.contents) {
+      setInitialContent(JSON.parse(note?.contents));
+      return JSON.parse(note?.contents);
+    }
+    return [];
+  }, [note, id]);
 
-  //   console.log("bar", pars);
-  // }
-  // const editor =
-  //   note && note?.contents !== null
-  //     ? useCreateBlockNote({
-  //         initialContent: JSON.parse(note?.contents),
-  //       })
-  //     : useCreateBlockNote();
-
-  // Creates a new editor instance.
-  const editor = useCreateBlockNote();
-
-  const { mutate } = useMutation({
-    mutationKey: "notes",
-    mutationFn: () => updateNotes(id, newData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["notes"],
-      });
-    },
+  const editor: BlockNoteEditor = useCreateBlockNote({
+    initialContent:
+      parsedContent?.length > 0 ? (parsedContent as PartialBlock[]) : undefined,
   });
+
+  useEffect(() => {
+    if (parsedContent?.length > 0) {
+      editor.replaceBlocks(editor.document, parsedContent);
+    }
+  }, [parsedContent, note, id]);
 
   return (
     <>
@@ -56,9 +52,18 @@ const Editor = ({ title, folder, id }) => {
         onChange={() => {
           // Saves the document JSON to state.
           setBlocks(editor.document);
-          mutate();
+          // const handler = setTimeout(() => {
+          //   mutate();
+          // }, 100);
+
+          // return () => {
+          //   clearTimeout(handler);
+          // };
         }}
-        theme={darkDefaultTheme}
+        // onMouseLeave={() => mutate()}
+
+        editable={true}
+        theme={theme == "light" ? lightDefaultTheme : darkDefaultTheme}
         editor={editor}
       />
     </>

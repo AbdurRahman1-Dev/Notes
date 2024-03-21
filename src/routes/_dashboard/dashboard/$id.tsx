@@ -1,11 +1,25 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useParams,
+} from "@tanstack/react-router";
 import Editor from "../../../components/dashboards/Editor";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { Star } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Button } from "@nextui-org/react";
+import { Save } from "lucide-react";
+import { Block } from "@blocknote/core";
+
+import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../../main";
-import { deleteNotes, getSingleNote, updateNotes } from "../../../api/notes";
+import {
+  deleteNotes,
+  getNotes,
+  getSingleNote,
+  updateNotes,
+} from "../../../api/notes";
+import { ThemeSwitcher } from "../../../components/ThemeSwitcher";
+import EditNote from "../../../components/dashboards/EditNote";
+import ParentIdSelect from "../../../components/dashboards/ParentIdSelect";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
   component: () => <ViewNote></ViewNote>,
@@ -13,51 +27,84 @@ export const Route = createFileRoute("/_dashboard/dashboard/$id")({
 
 export default function ViewNote() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  // get all note
+  const { data: allNote } = useQuery("notes", getNotes, {});
+
+  // get single note
   const { data: note } = useQuery(["notes", id], () => getSingleNote(id), {});
-  const [title, setTitle] = useState<string>("");
-  const [folder, setFolder] = useState("");
-  // const debouncedSearchTerm = useDebounce<string>(title, 500); // Debounce for 500ms
 
-  const animals = ["tiger", "lion", "bird", "elephent", "bla"];
+  // set data
+  const [title, setTitle] = useState<string>(
+    note?.title !== "" ? note?.title : ""
+  );
+  const [parentID, setParentID] = useState<string>(
+    note?.$id !== "" ? note?.$id : null
+  );
 
-  const { mutate } = useMutation({
+  const [blocks, setBlocks] = useState<Block[]>([]);
+
+  // filtered notes
+  const filNotes = allNote?.documents?.filter(
+    (filNotes) => filNotes.$id !== id
+  );
+
+  // new data
+  let newData = {
+    title,
+    parentID: parentID,
+    tags: ["text"],
+    contents: JSON.stringify(blocks),
+    userId: "",
+  };
+
+  const { mutate, isLoading: isNoteLoading } = useMutation({
     mutationKey: "notes",
-    mutationFn: () => updateNotes(id, { title }),
-    onSuccess: (data) => {
+    mutationFn: () => updateNotes(id, newData),
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });
-      // setTitle(data.title);
     },
   });
 
-  const { mutate: deleteMutate } = useMutation({
+  const { mutate: deleteMutate, isLoading: loadingDelete } = useMutation({
     mutationKey: "notes",
     mutationFn: () => deleteNotes(id),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });
-      console.log(data);
+      navigate({
+        to: `/dashboard`,
+      });
     },
   });
+  console.log(note);
 
-  // useEffect(() => {
-  //   const handler = setTimeout(() => {
-  //     mutate();
-  //   }, 1000);
-
-  //   return () => {
-  //     clearTimeout(handler);
-  //   };
-  // }, [title]);
   return (
     <main>
       <div className="flex justify-between items-center mb-5 ">
         <div>{!note?.title == "" ? note?.title : "Untitled"}</div>
-        <div className="flex items-center gap-2 ">
-          <Star />
-          <button onClick={deleteMutate}>delete</button>
+
+        <div className="flex items-center justify-between justify-items-center gap-2 ">
+          {/* Save Button */}
+          {isNoteLoading ? (
+            <Button color="primary" startContent={<Save />} isLoading>
+              Saving...
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              startContent={<Save />}
+              onClick={() => mutate()}
+            >
+              Save
+            </Button>
+          )}
+
+          <ThemeSwitcher />
+          <EditNote deleteMutate={deleteMutate} mutate={mutate} />
         </div>
       </div>
       <div className="space-y-4 mb-5">
@@ -71,34 +118,23 @@ export default function ViewNote() {
             return () => {
               clearTimeout(handler);
             };
-            // setTitle(e.target.value);
-            // mutate();
           }}
           type="text"
           placeholder="Untitled"
           className="w-full border-0 h-full bg-background p-1 text-4xl font-semibold  focus:border-0 border-none outline-0"
           name="title"
-          defaultValue={!note?.title == "" ? note?.title : ""}
+          defaultValue={note?.title !== "" ? note?.title : ""}
         />
         <div>
-          <Autocomplete
-            // onChange={(value) => console.log(value)}
-            onSelect={(e) => {
-              setFolder(e.target.value);
-            }}
-            size="sm"
-            label="Select Folder"
-            className="max-w-xs"
-          >
-            {animals.map((animal) => (
-              <AutocompleteItem key={animal} value={animal}>
-                {animal}
-              </AutocompleteItem>
-            ))}
-          </Autocomplete>
+          <ParentIdSelect
+            filNotes={filNotes}
+            mutate={mutate}
+            id={id}
+            setParentID={setParentID}
+          />
         </div>
       </div>
-      <Editor title={title} folder={folder} id={id} />
+      <Editor setBlocks={setBlocks} note={note} mutate={mutate} />
     </main>
   );
 }
