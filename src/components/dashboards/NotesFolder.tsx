@@ -14,60 +14,91 @@ const NotesFolder = ({ notes, isError, isLoading, type }) => {
     content: "ps-3 text-small ",
   };
 
+  if (isError) {
+    return <p>someting wnet wo</p>;
+  }
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="w-full">
       <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
-        <Star size={15} /> <span>{type}</span>
+        <Star size={15} /> <span>{type}</span>{" "}
       </p>
+
       {isLoading ? (
         <SkeletonLoading />
-      ) : notes?.documents?.length > 0 ? (
-        <Accordion
-          showDivider={false}
-          selectionMode={"multiple"}
-          itemClasses={itemClasses}
-        >
-          {notes?.documents.map((note) => (
-            <AccordionItem
-              onClick={() =>
-                navigate({
-                  to: `/dashboard/${note?.$id}`,
-                })
-              }
-              key={note.$id}
-              aria-label={note?.title}
-              title={
-                note?.title === ""
+      ) : (
+        <ul className="flex flex-col gap-2 flex-1 my-2">
+          {notes?.documents?.map((note) => (
+            <li key={note?.$id} className="w-full">
+              <Link
+                activeProps={{ className: "bg-primary" }}
+                to={`/dashboard/${note?.$id}`}
+                className={`w-full hover:bg-primary p-2 flex flex-1  items-center gap-1  rounded-md duration-250 hover:scale-[1.01]`}
+              >
+                <ChevronRight size={23} />
+                {note?.title === ""
                   ? "Untitled"
                   : note.title.length > 25
                     ? note.title.slice(0, 25) + "...."
-                    : note.title
-              }
-            >
-              <ul>
-                <li className=" px-2 ">
-                  <Link to={`/dashboard/${note.$id}`}>
-                    <Button
-                      // size="sm"
-                      className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
-                      startContent={<ChevronRight size={16} />}
-                    >
-                      Search Notes
-                    </Button>
-                    {/* <ChevronRight size={16} /> <span>One</span> */}
-                  </Link>
-                </li>{" "}
-              </ul>
-            </AccordionItem>
+                    : note.title}
+              </Link>
+            </li>
           ))}
-        </Accordion>
-      ) : (
-        <span className="text-sm font-bold text-gray-400 ps-5">
-          No Notes Found
-        </span>
+        </ul>
       )}
     </div>
+    // <div>
+    //   <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
+    //     <Star size={15} /> <span>{type}</span>
+    //   </p>
+    //   {isLoading ? (
+    //     <p>Loading..</p>
+    //   ) : notes?.documents?.length > 0 ? (
+    //     <Accordion
+    //       showDivider={false}
+    //       selectionMode={"multiple"}
+    //       itemClasses={itemClasses}
+    //     >
+    //       {notes?.documents.map((note) => (
+    //         <AccordionItem
+    //           onClick={() =>
+    //             navigate({
+    //               to: `/dashboard/${note?.$id}`,
+    //             })
+    //           }
+    //           key={note.$id}
+    //           aria-label={note?.title}
+    //           title={
+    //             note?.title === ""
+    //               ? "Untitled"
+    //               : note.title.length > 25
+    //                 ? note.title.slice(0, 25) + "...."
+    //                 : note.title
+    //           }
+    //         >
+    //           <ul>
+    //             <li className=" px-2 ">
+    //               <Link to={`/dashboard/${note.$id}`}>
+    //                 <Button
+    //                   // size="sm"
+    //                   className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-1  font-medium h-fit"
+    //                   startContent={<ChevronRight size={16} />}
+    //                 >
+    //                   Search Notes
+    //                 </Button>
+    //                 {/* <ChevronRight size={16} /> <span>One</span> */}
+    //               </Link>
+    //             </li>{" "}
+    //           </ul>
+    //         </AccordionItem>
+    //       ))}
+    //     </Accordion>
+    //   ) : (
+    //     <span className="text-sm font-bold text-gray-400 ps-5">
+    //       No Notes Found
+    //     </span>
+    //   )}
+    // </div>
   );
 };
 
