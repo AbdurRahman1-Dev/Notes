@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  console.log(theme);
 
   useEffect(() => {
     setMounted(true);
@@ -16,7 +17,7 @@ export function ThemeSwitcher() {
   return (
     <div className="ms-2">
       <Switch
-        defaultSelected
+        defaultSelected={theme == "dark"}
         size="md"
         color="primary"
         onChange={(e) => {
