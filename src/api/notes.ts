@@ -7,7 +7,14 @@ export async function handleCreateNote() {
       import.meta.env.VITE_NOTES_COLLECTION_ID,
       ID.unique(),
 
-      { title: "", parentID: "", contents: "", tags: [], userId: "" }
+      {
+        title: "",
+        parentID: "",
+        contents: "",
+        tags: [],
+        userId: "",
+        category: "",
+      }
     );
   } catch (error) {
     console.log(error);

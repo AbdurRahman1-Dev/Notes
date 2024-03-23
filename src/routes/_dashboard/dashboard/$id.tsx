@@ -19,10 +19,11 @@ import {
 } from "../../../api/notes";
 import { ThemeSwitcher } from "../../../components/ThemeSwitcher";
 import EditNote from "../../../components/dashboards/EditNote";
-import ParentIdSelect from "../../../components/dashboards/ParentIdSelect";
+
 import Title from "../../../components/Title";
 
 import SkeletonLoading from "../../../components/SkeletonLoading";
+import SelectCategory from "../../../components/dashboards/SelectCategory";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
   component: () => <ViewNote></ViewNote>,
@@ -40,6 +41,7 @@ export default function ViewNote() {
     () => getSingleNote(id),
     {}
   );
+  console.log(note);
 
   // set data
   const [title, setTitle] = useState<string>(
@@ -48,7 +50,10 @@ export default function ViewNote() {
   const [parentID, setParentID] = useState<string>(
     note?.parentID !== "" ? note?.parentID : ""
   );
-
+  const [category, setCategory] = useState<string>(
+    note?.category !== "" ? note?.category : ""
+  );
+  console.log(category);
   const [blocks, setBlocks] = useState<Block[]>([]);
 
   // new data
@@ -58,6 +63,7 @@ export default function ViewNote() {
     tags: ["text"],
     contents: JSON.stringify(blocks),
     userId: "",
+    category: category,
   };
 
   const { mutate, isLoading: isNoteLoading } = useMutation({
@@ -118,19 +124,24 @@ export default function ViewNote() {
         <div className="space-y-4 mb-5">
           <Title setTitle={setTitle} mutate={mutate} note={note}></Title>
           <div>
-            <ParentIdSelect
+            <SelectCategory
+              mutate={mutate}
+              note={note}
+              setCategory={setCategory}
+            />
+            {/* <ParentIdSelect
               allNote={allNote}
               mutate={mutate}
               // filNote={filNote}
               note={note}
               parentID={parentID}
               setParentID={setParentID}
-            />
+            /> */}
           </div>
         </div>
       )}
 
-      <Editor setBlocks={setBlocks} note={note} isLoading={isLoading} />
+      <Editor setBlocks={setBlocks} note={note} isLoading={isLoading} id={id} />
     </main>
   );
 }
