@@ -3,15 +3,24 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight, Star } from "lucide-react";
 import SkeletonLoading from "../SkeletonLoading";
 
-const NotesFolder = ({ notes, isError, isLoading, type }) => {
+const NotesFolder = ({ notes, isError, isLoading, type, icon }) => {
+  // items classes
+  // const itemClasses = {
+  //   base: "py-0 w-full ",
+  //   title: "font-semibold text-medium hover:text-white",
+  //   trigger:
+  //     " p-1  transition-all duration-250  data-[hover=true]:bg-primary data-[hover=true]:text-white rounded-lg  flex items-center flex-row-reverse ",
+  //   indicator: "text-medium rotate-[180deg] text-gray-200",
+  //   content: "ps-3 text-small ",
+  // };
+
   // items classes
   const itemClasses = {
-    base: "py-0 w-full ",
-    title: "font-semibold text-medium hover:text-white",
+    base: "py-0 w-full h-fit p-0",
+    title: "font-semibold text-medium ",
     trigger:
-      " p-1  transition-all duration-250  data-[hover=true]:bg-primary data-[hover=true]:text-white rounded-lg  flex items-center flex-row-reverse ",
+      " p-1  transition-all duration-250   rounded-lg  flex items-center ",
     indicator: "text-medium rotate-[180deg] text-gray-200",
-    content: "ps-3 text-small ",
   };
 
   if (isError) {
@@ -20,11 +29,50 @@ const NotesFolder = ({ notes, isError, isLoading, type }) => {
   const navigate = useNavigate();
   return (
     <div className="w-full">
-      <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
+      {/* <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
         <Star size={15} /> <span>{type}</span>{" "}
-      </p>
+      </p> */}
 
-      {isLoading ? (
+      <Accordion
+        showDivider={false}
+        selectionMode={"multiple"}
+        itemClasses={itemClasses}
+      >
+        <AccordionItem
+          key="1"
+          aria-label="Accordion 1"
+          title={
+            <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
+              {icon} <span>{type}</span>{" "}
+            </p>
+          }
+        >
+          {isLoading ? (
+            <SkeletonLoading />
+          ) : (
+            <ul className="flex flex-col gap-2 flex-1 my-2">
+              {notes?.documents?.map((note) => (
+                <li key={note?.$id} className="w-full">
+                  <Link
+                    activeProps={{ className: "bg-primary" }}
+                    to={`/dashboard/${note?.$id}`}
+                    className={`w-full hover:bg-primary p-2 flex flex-1  items-center gap-1  rounded-md duration-250 `}
+                  >
+                    <ChevronRight size={23} />
+                    {note?.title === ""
+                      ? "Untitled"
+                      : note?.title?.length > 25
+                        ? note?.title?.slice(0, 22) + "...."
+                        : note?.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </AccordionItem>
+      </Accordion>
+
+      {/* {isLoading ? (
         <SkeletonLoading />
       ) : (
         <ul className="flex flex-col gap-2 flex-1 my-2">
@@ -45,7 +93,7 @@ const NotesFolder = ({ notes, isError, isLoading, type }) => {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
     </div>
     // <div>
     //   <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">

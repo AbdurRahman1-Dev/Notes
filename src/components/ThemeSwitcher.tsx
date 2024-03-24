@@ -14,7 +14,7 @@ export function ThemeSwitcher() {
   if (!mounted) return null;
 
   return (
-    <div className="ms-2">
+    <div>
       <Switch
         defaultSelected={theme == "dark"}
         size="md"

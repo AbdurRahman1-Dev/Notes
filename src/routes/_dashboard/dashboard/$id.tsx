@@ -103,7 +103,7 @@ export default function ViewNote() {
         <div className="flex items-center justify-between justify-items-center gap-2 ">
           {/* Save Button */}
           {isNoteLoading ? (
-            <Button size="sm" color="primary" startContent={<Save />} isLoading>
+            <Button size="sm" color="primary" isLoading>
               Saving...
             </Button>
           ) : (

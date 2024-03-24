@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import { CirclePlus, Search } from "lucide-react";
+import { CirclePlus, NotebookText, Search, Star } from "lucide-react";
 import { useMutation, useQuery } from "react-query";
 import { getNotes, handleCreateNote } from "../../api/notes";
 import NotesFolder from "./NotesFolder";
@@ -63,6 +63,7 @@ const Sidebar = () => {
           isError={isError}
           isLoading={isLoading}
           type={"Favourite"}
+          icon={<Star size={15} />}
         ></NotesFolder>
 
         {/* sidebar private list */}
@@ -72,6 +73,7 @@ const Sidebar = () => {
           isError={isError}
           isLoading={isLoading}
           type={"Private"}
+          icon={<NotebookText size={15} />}
         ></NotesFolder>
         {/* <div className="mt-4 bg-secondarybg h-fit w-full">
           <div className="fixed bottom-0 left-10">
