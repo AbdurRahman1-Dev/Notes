@@ -3,7 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight, Star } from "lucide-react";
 import SkeletonLoading from "../SkeletonLoading";
 
-const NotesFolder = ({ notes, isError, isLoading, type, icon }) => {
+const NotesFolder = ({ notes, isError, isLoading, type, icon, keys }) => {
   // items classes
   // const itemClasses = {
   //   base: "py-0 w-full ",
@@ -26,7 +26,7 @@ const NotesFolder = ({ notes, isError, isLoading, type, icon }) => {
   if (isError) {
     return <p>someting wnet wo</p>;
   }
-  const navigate = useNavigate();
+
   return (
     <div className="w-full">
       {/* <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">
@@ -34,12 +34,13 @@ const NotesFolder = ({ notes, isError, isLoading, type, icon }) => {
       </p> */}
 
       <Accordion
+        defaultSelectedKeys={"2"}
         showDivider={false}
         selectionMode={"multiple"}
         itemClasses={itemClasses}
       >
         <AccordionItem
-          key="1"
+          key={keys}
           aria-label="Accordion 1"
           title={
             <p className="font-semibold text-sm flex items-center gap-2 text-gray-400">

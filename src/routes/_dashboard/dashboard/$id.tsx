@@ -46,19 +46,19 @@ export default function ViewNote() {
   const [title, setTitle] = useState<string>(
     note?.title !== "" ? note?.title : ""
   );
-  const [parentID, setParentID] = useState<string>(
-    note?.parentID !== "" ? note?.parentID : ""
-  );
+  // const [parentID, setParentID] = useState<string>(
+  //   note?.parentID !== "" ? note?.parentID : ""
+  // );
   const [category, setCategory] = useState<string>(
     note?.category !== "" ? note?.category : ""
   );
-  console.log(category);
+
   const [blocks, setBlocks] = useState<Block[]>([]);
 
   // new data
   let newData = {
     title,
-    parentID: parentID,
+    // parentID: parentID,
     tags: ["text"],
     contents: JSON.stringify(blocks),
     userId: "",

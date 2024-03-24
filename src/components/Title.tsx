@@ -19,7 +19,7 @@ const Title = ({ setTitle, mutate, note }) => {
           handleResize();
           const handler = setTimeout(() => {
             mutate();
-          }, 100);
+          }, 1000);
 
           return () => {
             clearTimeout(handler);

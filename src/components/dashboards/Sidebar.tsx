@@ -1,9 +1,16 @@
 import { Button } from "@nextui-org/react";
-import { CirclePlus, NotebookText, Search, Star } from "lucide-react";
+import {
+  CirclePlus,
+  Home,
+  LogOut,
+  NotebookText,
+  Search,
+  Star,
+} from "lucide-react";
 import { useMutation, useQuery } from "react-query";
 import { getNotes, handleCreateNote } from "../../api/notes";
 import NotesFolder from "./NotesFolder";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { queryClient } from "../../main";
 
 const Sidebar = () => {
@@ -24,12 +31,12 @@ const Sidebar = () => {
   });
 
   return (
-    <aside className="flex ">
+    <aside className="flex relative">
       {/* <div className="bg-primary text-white shadow-md">
         <SidebarLeft />
       </div> */}
 
-      <div className="flex flex-col  gap-4 relative p-3 w-full h-full">
+      <div className="flex flex-col  gap-4 relative p-3 w-full">
         {/* sidebar settings */}
         <div className="sticky top-0 left-0 overflow-hidden bg-secondarybg z-20  py-2">
           <div>
@@ -58,35 +65,47 @@ const Sidebar = () => {
         </div>
         {/* sidebar favourites list */}
 
-        <NotesFolder
-          notes={notes}
-          isError={isError}
-          isLoading={isLoading}
-          type={"Favourite"}
-          icon={<Star size={15} />}
-        ></NotesFolder>
+        <div className="h-screen">
+          <NotesFolder
+            notes={notes}
+            isError={isError}
+            isLoading={isLoading}
+            type={"Favourite"}
+            icon={<Star size={15} />}
+            keys={"1"}
+          ></NotesFolder>
 
-        {/* sidebar private list */}
+          {/* sidebar private list */}
 
-        <NotesFolder
-          notes={notes}
-          isError={isError}
-          isLoading={isLoading}
-          type={"Private"}
-          icon={<NotebookText size={15} />}
-        ></NotesFolder>
-        {/* <div className="mt-4 bg-secondarybg h-fit w-full">
-          <div className="fixed bottom-0 left-10">
+          <NotesFolder
+            notes={notes}
+            isError={isError}
+            isLoading={isLoading}
+            type={"Private"}
+            icon={<NotebookText size={15} />}
+            keys={"2"}
+          ></NotesFolder>
+        </div>
+        <div className="sticky  bottom-0 left-0 overflow-hidden bg-secondarybg z-20   ">
+          <div className="w-full border-t border-t-gray-600 flex justify-center items-center">
             <Button
-              color="primary"
-              className="  w-full  justify-start p-0 px-2 font-medium text-base mb-2"
-              startContent={<CirclePlus size={20} />}
+              className="bg-inherit hover:bg-primary hover:text-white w-full  justify-start p-0 px-2 font-medium text-base mb-2"
+              startContent={<Home size={20} />}
+            >
+              {" "}
+              <Link to="/dashboard"> Home</Link>
+            </Button>
+
+            <Button
+              // onClick={() => mutate()}
+              className="bg-inherit hover:bg-danger hover:text-white w-full  justify-start p-0 px-2 font-medium text-base mb-2"
+              endContent={<LogOut size={20} />}
             >
               {" "}
               Add Notes
             </Button>
           </div>
-        </div> */}
+        </div>
       </div>
     </aside>
   );
