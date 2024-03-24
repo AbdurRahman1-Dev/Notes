@@ -125,8 +125,8 @@ export default function ViewNote() {
       </div>
       {isLoading ? (
         <div className=" space-y-5">
-          <SkeletonLoading />
-          <SkeletonLoading />
+          <SkeletonLoading classes={"h-4 w-full"} />
+          <SkeletonLoading classes={"h-4 w-full"} />
         </div>
       ) : (
         <div className="space-y-4 mb-5 ">

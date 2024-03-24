@@ -31,12 +31,12 @@ const Sidebar = () => {
   });
 
   return (
-    <aside className="flex relative">
+    <aside className="flex ">
       {/* <div className="bg-primary text-white shadow-md">
         <SidebarLeft />
       </div> */}
 
-      <div className="flex flex-col  gap-4 relative p-3 w-full">
+      <div className="flex flex-col  gap-4  p-3 w-full">
         {/* sidebar settings */}
         <div className="sticky top-0 left-0 overflow-hidden bg-secondarybg z-20  py-2">
           <div>
@@ -65,7 +65,7 @@ const Sidebar = () => {
         </div>
         {/* sidebar favourites list */}
 
-        <div className="h-screen">
+        <div className="h-screen mb-52">
           <NotesFolder
             notes={notes}
             isError={isError}
@@ -86,8 +86,8 @@ const Sidebar = () => {
             keys={"2"}
           ></NotesFolder>
         </div>
-        <div className="sticky  bottom-0 left-0 overflow-hidden bg-secondarybg z-20   ">
-          <div className="w-full border-t border-t-gray-600 flex justify-center items-center">
+        <div className="bg-secondarybg z-20 w-full relative">
+          <div className=" border-t border-t-gray-600 flex justify-center items-center fixed  bottom-0 left-5 overflow-hidden bg-secondarybg w-[19%]">
             <Button
               className="bg-inherit hover:bg-primary hover:text-white w-full  justify-start p-0 px-2 font-medium text-base mb-2"
               startContent={<Home size={20} />}
@@ -102,7 +102,7 @@ const Sidebar = () => {
               endContent={<LogOut size={20} />}
             >
               {" "}
-              Add Notes
+              Logout
             </Button>
           </div>
         </div>

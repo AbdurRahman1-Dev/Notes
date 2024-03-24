@@ -49,8 +49,8 @@ const NotesFolder = ({ notes, isError, isLoading, type, icon, keys }) => {
           }
         >
           {isLoading ? (
-            <SkeletonLoading />
-          ) : (
+            <SkeletonLoading classes={"h-3 w-full"} />
+          ) : notes?.total > 0 ? (
             <ul className="flex flex-col gap-2 flex-1 my-2">
               {notes?.documents?.map((note) => (
                 <li key={note?.$id} className="w-full">
@@ -69,6 +69,10 @@ const NotesFolder = ({ notes, isError, isLoading, type, icon, keys }) => {
                 </li>
               ))}
             </ul>
+          ) : (
+            <p className="text-base font-semibold ps-5 text-gray-400">
+              No Notes Found!
+            </p>
           )}
         </AccordionItem>
       </Accordion>

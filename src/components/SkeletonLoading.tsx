@@ -1,6 +1,6 @@
 import { Skeleton } from "@nextui-org/react";
 
-const SkeletonLoading = () => {
+const SkeletonLoading = ({ classes }) => {
   return (
     <div className="w-full flex items-center gap-3">
       {/* <div>
@@ -9,7 +9,7 @@ const SkeletonLoading = () => {
       {/* <div className="w-full flex flex-col gap-2">
         <Skeleton className="h-3 w-full rounded-lg" />
       </div> */}
-      <Skeleton className={`h-5 w-full rounded-lg`} />
+      <Skeleton className={`${classes}  rounded-lg`} />
     </div>
   );
 };
