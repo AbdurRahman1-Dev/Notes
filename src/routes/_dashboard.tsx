@@ -12,7 +12,7 @@ export default function Dashboard() {
         <div className="w-[90%] md:col-span-3 bg-secondarybg  h-screen sticky overflow-auto top-0 left-0 shadow-md hidden md:block">
           <Sidebar />
         </div>
-        <div className="md:col-span-9 p-5 ">
+        <div className="md:col-span-9 p-3 md:p-5 ">
           <Outlet />
         </div>
       </div>

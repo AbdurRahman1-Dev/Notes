@@ -6,6 +6,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { CirclePlus, Ellipsis, Star, Trash2 } from "lucide-react";
+import { ThemeSwitcher } from "../ThemeSwitcher";
 
 const EditNote = ({ deleteMutate, mutate }) => {
   const iconClasses =
@@ -49,6 +50,14 @@ const EditNote = ({ deleteMutate, mutate }) => {
           startContent={<Trash2 className={iconClasses} />}
         >
           Delete file
+        </DropdownItem>
+        <DropdownItem
+          className="md:hidden"
+          shortcut={<ThemeSwitcher />}
+
+          // startContent={<Trash2 className={iconClasses} />}
+        >
+          Toggole Theme
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

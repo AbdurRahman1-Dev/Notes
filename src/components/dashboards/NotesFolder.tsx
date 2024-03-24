@@ -38,9 +38,9 @@ const NotesFolder = ({ notes, isError, isLoading, type }) => {
                 <ChevronRight size={23} />
                 {note?.title === ""
                   ? "Untitled"
-                  : note.title.length > 25
-                    ? note.title.slice(0, 25) + "...."
-                    : note.title}
+                  : note?.title?.length > 25
+                    ? note?.title?.slice(0, 25) + "...."
+                    : note?.title}
               </Link>
             </li>
           ))}

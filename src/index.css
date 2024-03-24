@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* blockNote overwrite css */
+[data-content-type="heading"][data-level="1"] {
+  font-size: 2.3rem !important;
+}
+
+[data-content-type="heading"][data-level="2"] {
+  font-size: 1.8rem !important;
+}
+
+.bn-editor {
+  padding-left: 30px !important;
+  padding-right: 0px !important;
+}
+.bn-slash-menu {
+  width: 95% !important;
+  margin-left: 10px !important;
+}
+.bn-toolbar {
+  flex-wrap: wrap !important;
+  margin: 0px auto !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
