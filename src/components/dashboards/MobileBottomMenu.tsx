@@ -1,12 +1,27 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { CirclePlus, Ellipsis, Home, Search } from "lucide-react";
-import { useMutation } from "react-query";
-import { handleCreateNote } from "../../api/notes";
+import { CirclePlus, Home, Search } from "lucide-react";
+import { useMutation, useQuery } from "react-query";
+import {
+  deleteNotes,
+  getSingleNote,
+  handleCreateNote,
+  updateNotes,
+} from "../../api/notes";
 import { queryClient } from "../../main";
+import EditNote from "./EditNote";
+import { useState } from "react";
 
 const MobileBottomMenu = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  // get single note
+  const { data: note } = useQuery(["notes", id], () => getSingleNote(id), {});
+
+  const [favorite, setFavorite] = useState<boolean>(
+    note?.favorite ? note?.favorite : false
+  );
 
   const { mutate } = useMutation({
     mutationKey: "notes",
@@ -17,6 +32,33 @@ const MobileBottomMenu = () => {
       });
       navigate({
         to: `/dashboard/${data?.$id}`,
+      });
+    },
+  });
+
+  // // new data
+  // let newData = {
+  //   favorite: favorite,
+  // };
+  const { mutate: updateMuate, isLoading: isNoteLoading } = useMutation({
+    mutationKey: "notes",
+    mutationFn: () => updateNotes(id, { favorite }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["notes"],
+      });
+    },
+  });
+
+  const { mutate: deleteMutate, isLoading: loadingDelete } = useMutation({
+    mutationKey: "notes",
+    mutationFn: () => deleteNotes(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["notes"],
+      });
+      navigate({
+        to: `/dashboard`,
       });
     },
   });
@@ -45,9 +87,14 @@ const MobileBottomMenu = () => {
           </button>
         </li>{" "}
         <li className=" h-full">
-          <Link className="hover:bg-primary rounded-3xl hover:rounded-sm duration-300 w-full h-full flex justify-center items-center">
-            <Ellipsis />
-          </Link>
+          <span className="hover:bg-primary rounded-3xl hover:rounded-sm duration-300 w-full h-full flex justify-center items-center">
+            <EditNote
+              deleteMutate={deleteMutate}
+              mutate={updateMuate}
+              setFavorite={setFavorite}
+              note={note}
+            />
+          </span>
         </li>{" "}
       </ul>
     </div>

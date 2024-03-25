@@ -8,7 +8,7 @@ import {
 import { CirclePlus, Ellipsis, Star, Trash2 } from "lucide-react";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 
-const EditNote = ({ deleteMutate, mutate }) => {
+const EditNote = ({ deleteMutate, mutate, setFavorite, note }) => {
   const iconClasses =
     "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
@@ -20,26 +20,56 @@ const EditNote = ({ deleteMutate, mutate }) => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
+        {/* create new note */}
         <DropdownItem
           onClick={() => mutate()}
           key="new"
-          shortcut="⌘N"
           description="Create a new file"
           startContent={<CirclePlus className={iconClasses} />}
         >
           New Note
         </DropdownItem>
+        {/* set and remove Favourite */}
+        {note?.favorite ? (
+          <DropdownItem
+            onClick={() => {
+              setFavorite(false);
+              const handler = setTimeout(() => {
+                mutate();
+              }, 500);
 
-        <DropdownItem
-          onClick={() => mutate()}
-          key="edit"
-          shortcut="⌘⇧E"
-          showDivider
-          description="Add to Favourite"
-          startContent={<Star className={iconClasses} />}
-        >
-          Favourite
-        </DropdownItem>
+              return () => {
+                clearTimeout(handler);
+              };
+            }}
+            key="edit"
+            showDivider
+            description="Remove from Favourite"
+            startContent={<Star className={iconClasses} />}
+          >
+            Favourite
+          </DropdownItem>
+        ) : (
+          <DropdownItem
+            onClick={() => {
+              setFavorite(true);
+              const handler = setTimeout(() => {
+                mutate();
+              }, 500);
+
+              return () => {
+                clearTimeout(handler);
+              };
+            }}
+            key="edit"
+            shortcut="⌘⇧E"
+            showDivider
+            description="Add to Favourite"
+            startContent={<Star className={iconClasses} />}
+          >
+            Favourite
+          </DropdownItem>
+        )}
         <DropdownItem
           onClick={() => deleteMutate()}
           key="delete"
@@ -51,6 +81,7 @@ const EditNote = ({ deleteMutate, mutate }) => {
         >
           Delete file
         </DropdownItem>
+        {/* switch theme */}
         <DropdownItem
           className="md:hidden"
           shortcut={<ThemeSwitcher />}

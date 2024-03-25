@@ -50,9 +50,9 @@ const NotesFolder = ({ notes, isError, isLoading, type, icon, keys }) => {
         >
           {isLoading ? (
             <SkeletonLoading classes={"h-3 w-full"} />
-          ) : notes?.total > 0 ? (
+          ) : notes?.length > 0 ? (
             <ul className="flex flex-col gap-2 flex-1 my-2">
-              {notes?.documents?.map((note) => (
+              {notes?.map((note) => (
                 <li key={note?.$id} className="w-full">
                   <Link
                     activeProps={{ className: "bg-primary" }}

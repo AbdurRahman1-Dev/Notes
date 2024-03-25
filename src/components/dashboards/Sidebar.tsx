@@ -30,6 +30,14 @@ const Sidebar = () => {
     },
   });
 
+  const favoriteNotes = notes?.documents
+    ?.filter((note) => note?.favorite)
+    .reverse();
+
+  const privateNotes = notes?.documents
+    ?.filter((note) => !note?.favorite)
+    .reverse();
+
   return (
     <aside className="flex ">
       {/* <div className="bg-primary text-white shadow-md">
@@ -67,10 +75,10 @@ const Sidebar = () => {
 
         <div className="h-screen mb-52">
           <NotesFolder
-            notes={notes}
+            notes={favoriteNotes}
             isError={isError}
             isLoading={isLoading}
-            type={"Favourite"}
+            type={"favorite"}
             icon={<Star size={15} />}
             keys={"1"}
           ></NotesFolder>
@@ -78,7 +86,7 @@ const Sidebar = () => {
           {/* sidebar private list */}
 
           <NotesFolder
-            notes={notes}
+            notes={privateNotes}
             isError={isError}
             isLoading={isLoading}
             type={"Private"}

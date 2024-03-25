@@ -8,66 +8,67 @@ import {
 } from "@nextui-org/react";
 import { Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
-
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
 import "swiper/css";
-
-const RecentNoteCard = ({ notes }) => {
+const RecentNoteCard = ({ recentNotes }) => {
   return (
-    <div className="my-5">
+    <div className="my-5 ">
       <Swiper
-        className="mySwiper w-full p-5 overflow-hidden"
-        slidesPerView={2}
-        spaceBetween={10}
-        preventClicks={false}
-        grabCursor={true}
+        slidesPerView={"auto"}
+        spaceBetween={15}
+        centeredSlides={false}
         breakpoints={{
           640: {
             slidesPerView: 2,
             spaceBetween: 10,
           },
           768: {
-            slidesPerView: 3,
-            spaceBetween: 10,
+            slidesPerView: 2,
+            spaceBetween: 30,
           },
           1024: {
             slidesPerView: 4,
-            spaceBetween: 20,
+            spaceBetween: 30,
           },
         }}
+        className="mySwiper w-full cursor-grab "
       >
-        {notes?.documents?.map((note) => (
-          <SwiperSlide key={note?.$id}>
-            <Card className="max-w-[120px] md:min-w-[200px] w-full h-full">
+        {recentNotes?.map((note) => (
+          <SwiperSlide
+            className="!max-w-[120px] md:min-w-[200px] p-2"
+            key={note?.$id}
+          >
+            <Card className="max-w-[120px] md:min-w-[200px] w-full shadow-small">
               <CardHeader className="flex gap-3">
                 <div className="flex flex-col">
-                  <p className="text-base md:text-md">
-                    {note?.title === ""
-                      ? "Untitled"
-                      : note?.title?.length > 20
-                        ? note?.title?.slice(0, 18) + "...."
-                        : note?.title}
-                  </p>
-                  <p className="text-sm text-default-500">
+                  <Link to={`/dashboard/${note?.$id}`}>
+                    {" "}
+                    <p className="text-sm md:text-lg text-primary">
+                      {note?.title === ""
+                        ? "Untitled"
+                        : note?.title?.length > 15
+                          ? note?.title?.slice(0, 9) + ".."
+                          : note?.title}
+                    </p>
+                  </Link>
+                  <p className="text-[10px] md:text-sm  text-default-500">
                     {new Date(note?.$createdAt).toDateString()}
                   </p>
                 </div>
               </CardHeader>
               <Divider />
-              <CardBody>
+              {/* <CardBody className="hidden md:block">
                 {note?.tags?.map((tag, index) => (
                   <Chip key={index} size="sm" color="primary">
                     {tag}
                   </Chip>
                 ))}
               </CardBody>
-              <Divider />
-              <CardFooter>
+              <Divider /> */}
+              <CardFooter className="hidden md:block">
                 <Link to={`/dashboard/${note?.$id}`}>
-                  <ExternalLink />
+                  <ExternalLink size={20} />
                 </Link>
               </CardFooter>
             </Card>

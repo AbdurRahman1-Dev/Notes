@@ -14,6 +14,7 @@ export async function handleCreateNote() {
         tags: [],
         userId: "",
         category: "",
+        favorite: false,
       }
     );
   } catch (error) {

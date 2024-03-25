@@ -41,26 +41,24 @@ const Editor = ({ setBlocks, note, isLoading, id }) => {
 
   return (
     <>
-      <Suspense fallback={<SkeletonLoading />}>
-        <BlockNoteView
-          onChange={() => {
-            // Saves the document JSON to state.
-            setBlocks(editor?.document);
-            // const handler = setTimeout(() => {
-            //   mutate();
-            // }, 100);
+      <BlockNoteView
+        onChange={() => {
+          // Saves the document JSON to state.
+          setBlocks(editor?.document);
+          // const handler = setTimeout(() => {
+          //   mutate();
+          // }, 100);
 
-            // return () => {
-            //   clearTimeout(handler);
-            // };
-          }}
-          // onMouseLeave={() => mutate()}
+          // return () => {
+          //   clearTimeout(handler);
+          // };
+        }}
+        // onMouseLeave={() => mutate()}
 
-          editable={true}
-          theme={theme == "light" ? lightDefaultTheme : darkDefaultTheme}
-          editor={editor}
-        />
-      </Suspense>
+        editable={true}
+        theme={theme == "light" ? lightDefaultTheme : darkDefaultTheme}
+        editor={editor}
+      />
     </>
   );
 };

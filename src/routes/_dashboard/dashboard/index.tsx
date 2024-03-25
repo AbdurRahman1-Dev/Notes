@@ -7,31 +7,34 @@ import SkeletonLoading from "../../../components/SkeletonLoading";
 import SearchNotes from "../../../components/dashboards/SearchNotes";
 import { ThemeSwitcher } from "../../../components/ThemeSwitcher";
 
+import AllFilterNotes from "../../../components/dashboards/AllFilterNotes";
+
 export const Route = createFileRoute("/_dashboard/dashboard/")({
   component: () => <Dashboard />,
 });
 
 const Dashboard = () => {
   const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
-  console.log(notes);
+
+  const recentNotes = notes && [...notes?.documents]?.reverse().slice(0, 6);
 
   if (isError) {
     return <p>Smwthing went wrong</p>;
   }
 
   return (
-    <div className="space-y-10">
-      <div className="flex justify-end">
-        <ThemeSwitcher />
-      </div>
-      <section>
-        <SearchNotes />
-      </section>
-
-      <section>
-        <h3 className="font-semibold text-2xl flex items-center gap-2 text-gray-400">
-          Recent Notes
-        </h3>
+    <div className="md:space-y-5 space-y-3 ">
+      {/* recent notes */}
+      <section className="w-full">
+        <div className="flex justify-between items-center">
+          <h3 className="font-semibold text-2xl text-gray-400">Recent Notes</h3>
+          <div className="flex gap-2 items-center gap-2">
+            <span className="text-sm md:text-base font-semibold text-gray-400 hidden md:block">
+              Total Notes: {notes?.total}
+            </span>
+            <ThemeSwitcher />
+          </div>
+        </div>
         {isLoading ? (
           <div className="flex gap-5 my-5">
             <SkeletonLoading classes={"h-12 w-full "} />
@@ -39,8 +42,25 @@ const Dashboard = () => {
             <SkeletonLoading classes={"h-12 w-full "} />
           </div>
         ) : (
-          <RecentNoteCard notes={notes} />
+          <div>
+            <RecentNoteCard recentNotes={recentNotes} />
+          </div>
         )}
+      </section>
+
+      {/* search Notes */}
+      <section>
+        <SearchNotes />
+      </section>
+
+      {/* filter notes */}
+
+      <section>
+        <AllFilterNotes
+          notes={recentNotes}
+          isError={isError}
+          isLoading={isLoading}
+        />
       </section>
     </div>
   );

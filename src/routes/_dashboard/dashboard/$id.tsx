@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-router";
 import Editor from "../../../components/dashboards/Editor";
 import { Button } from "@nextui-org/react";
-import { Save } from "lucide-react";
+import { Save, Star } from "lucide-react";
 import { Block } from "@blocknote/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../../main";
 import {
@@ -40,7 +40,6 @@ export default function ViewNote() {
     () => getSingleNote(id),
     {}
   );
-  console.log(note);
 
   // set data
   const [title, setTitle] = useState<string>(
@@ -53,6 +52,10 @@ export default function ViewNote() {
     note?.category !== "" ? note?.category : ""
   );
 
+  const [favorite, setFavorite] = useState<boolean>(
+    note?.favorite ? note?.favorite : false
+  );
+
   const [blocks, setBlocks] = useState<Block[]>([]);
 
   // new data
@@ -63,6 +66,7 @@ export default function ViewNote() {
     contents: JSON.stringify(blocks),
     userId: "",
     category: category,
+    favorite: favorite,
   };
 
   const { mutate, isLoading: isNoteLoading } = useMutation({
@@ -101,6 +105,9 @@ export default function ViewNote() {
         </span>
 
         <div className="flex items-center justify-between justify-items-center gap-2 ">
+          <div>
+            {note?.favorite ? <Star className="text-warning" /> : <Star />}
+          </div>
           {/* Save Button */}
           {isNoteLoading ? (
             <Button size="sm" color="primary" isLoading>
@@ -120,7 +127,14 @@ export default function ViewNote() {
           <div className="hidden md:block">
             <ThemeSwitcher />
           </div>
-          <EditNote deleteMutate={deleteMutate} mutate={mutate} />
+          <div className="hidden md:block">
+            <EditNote
+              deleteMutate={deleteMutate}
+              mutate={mutate}
+              setFavorite={setFavorite}
+              note={note}
+            />
+          </div>
         </div>
       </div>
       {isLoading ? (
@@ -131,6 +145,7 @@ export default function ViewNote() {
       ) : (
         <div className="space-y-4 mb-5 ">
           <Title setTitle={setTitle} mutate={mutate} note={note}></Title>
+
           <div>
             <SelectCategory
               mutate={mutate}
