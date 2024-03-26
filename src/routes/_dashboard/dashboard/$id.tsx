@@ -4,10 +4,10 @@ import {
   useParams,
 } from "@tanstack/react-router";
 import Editor from "../../../components/dashboards/Editor";
-import { Button } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 import { Save, Star } from "lucide-react";
 import { Block } from "@blocknote/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../../main";
 import {
@@ -23,6 +23,7 @@ import Title from "../../../components/Title";
 
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import SelectCategory from "../../../components/dashboards/SelectCategory";
+import { AuthContext } from "../../../context/AuthContext";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
   component: () => <ViewNote></ViewNote>,
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/_dashboard/dashboard/$id")({
 export default function ViewNote() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user, isLoading: loading } = useContext(AuthContext);
   // // get all note
   // const { data: allNote } = useQuery("notes", getNotes, {});
 
@@ -40,6 +42,7 @@ export default function ViewNote() {
     () => getSingleNote(id),
     {}
   );
+  console.log(note);
 
   // set data
   const [title, setTitle] = useState<string>(
@@ -64,7 +67,7 @@ export default function ViewNote() {
     // parentID: parentID,
     tags: ["text"],
     contents: JSON.stringify(blocks),
-    userId: "",
+    userId: user?.$id,
     category: category,
     favorite: favorite,
   };

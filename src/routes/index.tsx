@@ -1,7 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  component: () => (
+  component: () => <Home />,
+});
+
+const Home = () => {
+  return (
     <div>
       home page comming soon
       <div className="p-2 flex gap-2">
@@ -22,5 +26,7 @@ export const Route = createFileRoute("/")({
       </div>
       <hr />
     </div>
-  ),
-});
+  );
+};
+
+export default Home;

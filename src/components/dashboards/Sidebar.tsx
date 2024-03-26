@@ -1,19 +1,16 @@
-import { Button } from "@nextui-org/react";
-import {
-  CirclePlus,
-  Home,
-  LogOut,
-  NotebookText,
-  Search,
-  Star,
-} from "lucide-react";
+import { Button, User } from "@nextui-org/react";
+import { CirclePlus, Home, LogOut, NotebookText, Star } from "lucide-react";
 import { useMutation, useQuery } from "react-query";
 import { getNotes, handleCreateNote } from "../../api/notes";
 import NotesFolder from "./NotesFolder";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { queryClient } from "../../main";
+import SearchModal from "./SearchModal";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Sidebar = () => {
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
 
@@ -48,16 +45,12 @@ const Sidebar = () => {
         {/* sidebar settings */}
         <div className="sticky top-0 left-0 overflow-hidden bg-secondarybg z-20  py-2">
           <div>
-            <h2 className="font-semibold text-2xl">Abdur Rahman</h2>
+            {/* <h2 className="font-semibold text-2xl">{user?.name}</h2> */}
+            <User name={user?.name} description={user?.email} />
           </div>
           <div className="w-full border-b border-b-gray-600 ">
             <div>
-              <Button
-                className="bg-inherit hover:bg-primary hover:text-white  w-full  justify-start p-0 px-2 font-medium text-base mt-1"
-                startContent={<Search size={20} />}
-              >
-                Search Notes
-              </Button>
+              <SearchModal />
             </div>{" "}
             <div>
               <Button

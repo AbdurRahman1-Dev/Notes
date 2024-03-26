@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.12.1",
     "@blocknote/core": "^0.12.1",
     "@blocknote/react": "^0.12.2",
     "@nextui-org/button": "^2.0.27",
@@ -24,7 +25,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
-    "react-slick": "^0.30.2",
     "swiper": "^11.0.7"
   },
   "devDependencies": {

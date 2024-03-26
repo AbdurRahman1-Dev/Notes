@@ -21,12 +21,12 @@ const SearchNotes = () => {
           onMouseLeave={() => setOpen(false)}
           className="relative    h-fit  z-50  "
         >
-          <div className=" absolute top-0 left-0 w-full h-fit backdrop-blur-xl   p-3  transition-all duration-300 rounded-md border-1 border-secondarybg space-y-2">
+          <div className=" absolute top-0 left-0 w-full h-fit backdrop-blur-xl   p-3  transition-all duration-300 rounded-md  space-y-2">
             <div className="flex justify-between items-center p-2 h-full  border-b-1 border-secondarybg hover:bg-secondarybg duration-200">
               <Link to="/">
-                <h3 className="text-xl">Title</h3>
+                <h3 className="text-base md:text-xl">Title</h3>
               </Link>
-              <p className="text-base text-gray-400">categroy</p>
+              <p className="text-sm md:text-xl text-gray-400">categroy</p>
               <Link>
                 <ExternalLink />
               </Link>

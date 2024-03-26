@@ -8,13 +8,21 @@ import SearchNotes from "../../../components/dashboards/SearchNotes";
 import { ThemeSwitcher } from "../../../components/ThemeSwitcher";
 
 import AllFilterNotes from "../../../components/dashboards/AllFilterNotes";
+import { AuthContext } from "../../../context/AuthContext";
+import { useContext } from "react";
 
 export const Route = createFileRoute("/_dashboard/dashboard/")({
   component: () => <Dashboard />,
 });
 
 const Dashboard = () => {
-  const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
+  const { user } = useContext(AuthContext);
+  const {
+    data: notes,
+    isError,
+    isLoading,
+  } = useQuery("notes", () => getNotes(user?.$id), {});
+  console.log(user);
 
   const recentNotes = notes && [...notes?.documents]?.reverse().slice(0, 6);
 

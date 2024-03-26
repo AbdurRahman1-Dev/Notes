@@ -1,3 +1,4 @@
+import { Query } from "appwrite";
 import { ID, databases } from "../appwrite/appwriteConfig";
 
 export async function handleCreateNote() {
@@ -22,11 +23,12 @@ export async function handleCreateNote() {
   }
 }
 
-export async function getNotes() {
+export async function getNotes(userID) {
   try {
     return await databases.listDocuments(
       import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_NOTES_COLLECTION_ID
+      import.meta.env.VITE_NOTES_COLLECTION_ID,
+      [Query.equal("userId", userID)]
     );
   } catch (error) {
     console.log(error);
