@@ -6,6 +6,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Toaster } from "react-hot-toast";
 
 export const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <AuthProvider>
         <NextUIProvider>
           <NextThemesProvider attribute="class" defaultTheme="dark">
+            <Toaster />
             <App />
           </NextThemesProvider>
         </NextUIProvider>

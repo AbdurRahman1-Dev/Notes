@@ -12,6 +12,7 @@ import { queryClient } from "../../main";
 import EditNote from "./EditNote";
 import { useState } from "react";
 import SearchModal from "./SearchModal";
+import toast from "react-hot-toast";
 
 const MobileBottomMenu = () => {
   const { id } = useParams();
@@ -31,6 +32,7 @@ const MobileBottomMenu = () => {
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });
+      toast.success("Successfully Created!");
       navigate({
         to: `/dashboard/${data?.$id}`,
       });
@@ -58,6 +60,7 @@ const MobileBottomMenu = () => {
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });
+      toast.success("Successfully Deleted");
       navigate({
         to: `/dashboard`,
       });

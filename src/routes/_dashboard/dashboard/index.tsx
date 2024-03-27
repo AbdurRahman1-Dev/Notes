@@ -122,7 +122,7 @@ const Dashboard = () => {
 
 const Details = ({ title, icon, iconOp, value, isLoading }) => {
   return (
-    <div className="w-full p-2 md:p-4 bg-secondarybg rounded-md md:space-y-3">
+    <div className="w-full p-2 md:p-4 bg-gray-200 dark:bg-secondarybg rounded-md md:space-y-3">
       {isLoading ? (
         <>
           {" "}

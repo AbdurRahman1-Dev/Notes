@@ -8,6 +8,7 @@ import { queryClient } from "../../main";
 import SearchModal from "./SearchModal";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 const Sidebar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -21,6 +22,7 @@ const Sidebar = () => {
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });
+      toast.success("Successfully created");
       navigate({
         to: `/dashboard/${data?.$id}`,
       });

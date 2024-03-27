@@ -25,6 +25,7 @@ import SkeletonLoading from "../../../components/shared/SkeletonLoading";
 import SelectCategory from "../../../components/dashboards/SelectCategory";
 import { AuthContext } from "../../../context/AuthContext";
 import PrivateAuth from "../../../context/PrivateAuth";
+import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
   component: () => (
@@ -93,6 +94,7 @@ export default function ViewNote() {
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });
+      toast.success("Successfully Deleted");
       navigate({
         to: `/dashboard`,
       });
@@ -101,46 +103,48 @@ export default function ViewNote() {
 
   return (
     <main>
-      <div className="flex justify-between items-center mb-5 sticky top-0 left-0 z-50 py-3 bg-background">
-        <span className="text-sm md:text-base">
-          {" "}
-          {note?.title === ""
-            ? "Untitled"
-            : note?.title?.length > 25
-              ? note?.title?.slice(0, 13) + "..."
-              : note?.title}
-        </span>
+      <div className="relative  z-50 w-full h-full">
+        <div className="flex  justify-between items-center mb-5  py-3 bg-background sticky top-0 left-0 ">
+          <span className="text-sm md:text-base">
+            {" "}
+            {note?.title === ""
+              ? "Untitled"
+              : note?.title?.length > 25
+                ? note?.title?.slice(0, 13) + "..."
+                : note?.title}
+          </span>
 
-        <div className="flex items-center justify-between justify-items-center gap-2 ">
-          <div>
-            {note?.favorite ? <Star className="text-warning" /> : <Star />}
-          </div>
-          {/* Save Button */}
-          {isNoteLoading ? (
-            <Button size="sm" color="primary" isLoading>
-              Saving...
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              color="primary"
-              startContent={<Save />}
-              onClick={() => mutate()}
-            >
-              Save
-            </Button>
-          )}
+          <div className="flex items-center justify-between justify-items-center gap-2 ">
+            <div>
+              {note?.favorite ? <Star className="text-warning" /> : <Star />}
+            </div>
+            {/* Save Button */}
+            {isNoteLoading ? (
+              <Button size="sm" color="primary" isLoading>
+                Saving...
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                color="primary"
+                startContent={<Save />}
+                onClick={() => mutate()}
+              >
+                Save
+              </Button>
+            )}
 
-          <div className="hidden md:block">
-            <ThemeSwitcher />
-          </div>
-          <div className="hidden md:block">
-            <EditNote
-              deleteMutate={deleteMutate}
-              mutate={mutate}
-              setFavorite={setFavorite}
-              note={note}
-            />
+            <div className="hidden md:block">
+              <ThemeSwitcher />
+            </div>
+            <div className="hidden md:block">
+              <EditNote
+                deleteMutate={deleteMutate}
+                mutate={mutate}
+                setFavorite={setFavorite}
+                note={note}
+              />
+            </div>
           </div>
         </div>
       </div>
