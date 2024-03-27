@@ -17,13 +17,14 @@ export const Route = createFileRoute("/_dashboard/dashboard/")({
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
+  // get notes
   const {
     data: notes,
     isError,
     isLoading,
-  } = useQuery("notes", () => getNotes(user?.$id), {});
-  console.log(user);
+  } = useQuery(["notes"], async () => await getNotes(), {});
 
+  // recent Notes
   const recentNotes = notes && [...notes?.documents]?.reverse().slice(0, 6);
 
   if (isError) {

@@ -75,7 +75,7 @@ const AuthProvider = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
-      const res = await account.createEmailPasswordSession(email, password);
+      const res = await account.createEmailSession(email, password);
 
       if (res?.userId) {
         setIsLoading(false);
@@ -99,6 +99,7 @@ const AuthProvider = ({ children }) => {
       // }
       return { login: true };
     } catch (error) {
+      setIsLoading(false);
       console.error("Login Error", error);
     }
   };
@@ -128,6 +129,7 @@ const AuthProvider = ({ children }) => {
         login(email, password);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };

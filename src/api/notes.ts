@@ -1,7 +1,8 @@
 import { Query } from "appwrite";
-import { ID, databases } from "../appwrite/appwriteConfig";
+import { ID, account, databases } from "../appwrite/appwriteConfig";
 
 export async function handleCreateNote() {
+  const user = await account.get();
   try {
     return await databases.createDocument(
       import.meta.env.VITE_DATABASE_ID,
@@ -13,7 +14,7 @@ export async function handleCreateNote() {
         parentID: "",
         contents: "",
         tags: [],
-        userId: "",
+        userId: user?.$id,
         category: "",
         favorite: false,
       }
@@ -23,12 +24,15 @@ export async function handleCreateNote() {
   }
 }
 
-export async function getNotes(userID) {
+export async function getNotes() {
+  const user = await account.get();
+  console.log("id", typeof user?.$id);
   try {
     return await databases.listDocuments(
       import.meta.env.VITE_DATABASE_ID,
       import.meta.env.VITE_NOTES_COLLECTION_ID,
-      [Query.equal("userId", userID)]
+      // [Query.search("title", "user")]
+      [Query.equal("userId", [user?.$id])]
     );
   } catch (error) {
     console.log(error);

@@ -42,7 +42,6 @@ export default function ViewNote() {
     () => getSingleNote(id),
     {}
   );
-  console.log(note);
 
   // set data
   const [title, setTitle] = useState<string>(

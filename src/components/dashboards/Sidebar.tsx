@@ -10,7 +10,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Sidebar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
 
@@ -44,7 +44,7 @@ const Sidebar = () => {
       <div className="flex flex-col  gap-4  p-3 w-full">
         {/* sidebar settings */}
         <div className="sticky top-0 left-0 overflow-hidden bg-secondarybg z-20  py-2">
-          <div>
+          <div className="border-b border-b-gray-600 pb-2">
             {/* <h2 className="font-semibold text-2xl">{user?.name}</h2> */}
             <User name={user?.name} description={user?.email} />
           </div>
@@ -98,7 +98,7 @@ const Sidebar = () => {
             </Button>
 
             <Button
-              // onClick={() => mutate()}
+              onClick={logout}
               className="bg-inherit hover:bg-danger hover:text-white w-full  justify-start p-0 px-2 font-medium text-base mb-2"
               endContent={<LogOut size={20} />}
             >

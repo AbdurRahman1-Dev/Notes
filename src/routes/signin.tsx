@@ -42,7 +42,7 @@ const Signin = () => {
             title={
               <div className="flex items-center space-x-2">
                 <UserPlus />
-                <span>Photos</span>
+                <span>SignUp</span>
               </div>
             }
           >
@@ -101,7 +101,7 @@ const Signin = () => {
             title={
               <div className="flex items-center space-x-2">
                 <LogIn />
-                <span>Music</span>
+                <span>SignIn</span>
               </div>
             }
           >
