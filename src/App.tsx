@@ -9,11 +9,11 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-const router = createRouter({ routeTree });
+const router = createRouter({ routeTree, context: undefined! });
 
 function App() {
-  // const { user } = useContext(AuthContext);
-  return <RouterProvider router={router} />;
+  const { user } = useContext(AuthContext);
+  return <RouterProvider router={router} context={user} />;
 }
 
 export default App;

@@ -49,7 +49,7 @@ const Sidebar = () => {
             <User name={user?.name} description={user?.email} />
           </div>
           <div className="w-full border-b border-b-gray-600 ">
-            <div>
+            <div className="mt-1">
               <SearchModal />
             </div>{" "}
             <div>
@@ -88,9 +88,9 @@ const Sidebar = () => {
           ></NotesFolder>
         </div>
         <div className="bg-secondarybg z-20 w-full relative">
-          <div className=" border-t border-t-gray-600 flex justify-center items-center fixed  bottom-0 left-5 overflow-hidden bg-secondarybg w-[19%]">
+          <div className=" border-t border-t-gray-600 flex justify-center items-center fixed  bottom-0 left-5 overflow-hidden bg-secondarybg w-[19%] gap-4 pt-1">
             <Button
-              className="bg-inherit hover:bg-primary hover:text-white w-full  justify-start p-0 px-2 font-medium text-base mb-2"
+              className="bg-inherit hover:bg-primary hover:text-white w-full   p-0 px-2 font-medium text-base mb-2"
               startContent={<Home size={20} />}
             >
               {" "}
@@ -99,7 +99,7 @@ const Sidebar = () => {
 
             <Button
               onClick={logout}
-              className="bg-inherit hover:bg-danger hover:text-white w-full  justify-start p-0 px-2 font-medium text-base mb-2"
+              className="bg-inherit hover:bg-danger hover:text-white w-full   p-0 px-2 font-medium text-base mb-2"
               endContent={<LogOut size={20} />}
             >
               {" "}

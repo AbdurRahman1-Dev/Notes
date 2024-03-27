@@ -15,7 +15,7 @@ import {
   Star,
   TableProperties,
 } from "lucide-react";
-import SkeletonLoading from "../SkeletonLoading";
+import SkeletonLoading from "../shared/SkeletonLoading";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
@@ -26,7 +26,6 @@ const AllFilterNotes = ({ notes, isError, isLoading }) => {
     return <p>Something Went Wrong</p>;
   }
   const [layout, setLayout] = useState("grid");
-  console.log(notes);
 
   return (
     <div className="space-y-3">

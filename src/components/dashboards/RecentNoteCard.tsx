@@ -52,9 +52,9 @@ const RecentNoteCard = ({ recentNotes }) => {
                           : note?.title}
                     </p>
                   </Link>
-                  <p className="text-[10px] md:text-sm  text-default-500">
+                  <span className="text-[10px] md:text-sm  text-default-500">
                     {new Date(note?.$createdAt).toDateString()}
-                  </p>
+                  </span>
                 </div>
               </CardHeader>
               <Divider />

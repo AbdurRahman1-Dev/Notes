@@ -1,7 +1,7 @@
 import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight, Star } from "lucide-react";
-import SkeletonLoading from "../SkeletonLoading";
+import SkeletonLoading from "../shared/SkeletonLoading";
 
 const NotesFolder = ({ notes, isError, isLoading, type, icon, keys }) => {
   // items classes

@@ -16,17 +16,22 @@ import {
   getSingleNote,
   updateNotes,
 } from "../../../api/notes";
-import { ThemeSwitcher } from "../../../components/ThemeSwitcher";
+import { ThemeSwitcher } from "../../../components/shared/ThemeSwitcher";
 import EditNote from "../../../components/dashboards/EditNote";
 
 import Title from "../../../components/Title";
 
-import SkeletonLoading from "../../../components/SkeletonLoading";
+import SkeletonLoading from "../../../components/shared/SkeletonLoading";
 import SelectCategory from "../../../components/dashboards/SelectCategory";
 import { AuthContext } from "../../../context/AuthContext";
+import PrivateAuth from "../../../context/PrivateAuth";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
-  component: () => <ViewNote></ViewNote>,
+  component: () => (
+    <PrivateAuth>
+      <ViewNote></ViewNote>
+    </PrivateAuth>
+  ),
 });
 
 export default function ViewNote() {

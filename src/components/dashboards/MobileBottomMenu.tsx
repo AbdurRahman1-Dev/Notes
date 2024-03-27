@@ -11,6 +11,7 @@ import {
 import { queryClient } from "../../main";
 import EditNote from "./EditNote";
 import { useState } from "react";
+import SearchModal from "./SearchModal";
 
 const MobileBottomMenu = () => {
   const { id } = useParams();
@@ -73,10 +74,8 @@ const MobileBottomMenu = () => {
             <Home />
           </Link>
         </li>{" "}
-        <li className=" h-full">
-          <Link className="hover:bg-primary rounded-3xl hover:rounded-sm duration-300 w-full h-full flex justify-center items-center">
-            <Search />
-          </Link>
+        <li className=" hover:bg-primary rounded-3xl hover:rounded-sm duration-300 w-full h-full flex justify-center items-center">
+          <SearchModal />
         </li>{" "}
         <li className=" h-full">
           <button

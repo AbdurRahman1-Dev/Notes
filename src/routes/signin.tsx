@@ -16,12 +16,7 @@ const Signin = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const {
-    createAccount,
-    logout,
-    login,
-    isLoading: loading,
-  } = useContext(AuthContext);
+  const { createAccount, login, isLoading: loading } = useContext(AuthContext);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -161,7 +156,6 @@ const Signin = () => {
                   </Button>
                 )}
               </form>
-              <button onClick={logout}>out</button>
             </div>
           </Tab>
         </Tabs>

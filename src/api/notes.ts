@@ -24,15 +24,30 @@ export async function handleCreateNote() {
   }
 }
 
+// get all notes
+
 export async function getNotes() {
   const user = await account.get();
-  console.log("id", typeof user?.$id);
   try {
     return await databases.listDocuments(
       import.meta.env.VITE_DATABASE_ID,
       import.meta.env.VITE_NOTES_COLLECTION_ID,
       // [Query.search("title", "user")]
       [Query.equal("userId", [user?.$id])]
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getSearchNotes(text: string) {
+  const user = await account.get();
+  try {
+    return await databases.listDocuments(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_NOTES_COLLECTION_ID,
+      // [Query.search("title", "user")]
+      [Query.equal("userId", [user?.$id]), Query.search("title", text)]
     );
   } catch (error) {
     console.log(error);

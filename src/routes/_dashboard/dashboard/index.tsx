@@ -1,18 +1,38 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { getNotes } from "../../../api/notes";
 import { useQuery } from "react-query";
 import RecentNoteCard from "../../../components/dashboards/RecentNoteCard";
-import SkeletonLoading from "../../../components/SkeletonLoading";
+import SkeletonLoading from "../../../components/shared/SkeletonLoading";
 
 import SearchNotes from "../../../components/dashboards/SearchNotes";
-import { ThemeSwitcher } from "../../../components/ThemeSwitcher";
+import { ThemeSwitcher } from "../../../components/shared/ThemeSwitcher";
 
 import AllFilterNotes from "../../../components/dashboards/AllFilterNotes";
 import { AuthContext } from "../../../context/AuthContext";
 import { useContext } from "react";
+import PrivateAuth from "../../../context/PrivateAuth";
+import SearchModal from "../../../components/dashboards/SearchModal";
+import { Search } from "lucide-react";
 
 export const Route = createFileRoute("/_dashboard/dashboard/")({
-  component: () => <Dashboard />,
+  // beforeLoad: async ({ context }) => {
+  //   console.log("cont", context);
+
+  //   // const { user } = useContext(AuthContext);
+  //   if (context?.user) {
+  //     throw redirect({
+  //       to: "/signin",
+  //     });
+  //   }
+  // },
+  // loader: async () => {
+  //   return <Auth />;
+  // },
+  component: () => (
+    <PrivateAuth>
+      <Dashboard />
+    </PrivateAuth>
+  ),
 });
 
 const Dashboard = () => {
@@ -59,7 +79,8 @@ const Dashboard = () => {
 
       {/* search Notes */}
       <section>
-        <SearchNotes />
+        {/* <SearchNotes /> */}
+        <SearchModal />
       </section>
 
       {/* filter notes */}

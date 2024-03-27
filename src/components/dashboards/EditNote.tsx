@@ -6,7 +6,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { CirclePlus, Ellipsis, Star, Trash2 } from "lucide-react";
-import { ThemeSwitcher } from "../ThemeSwitcher";
+import { ThemeSwitcher } from "../shared/ThemeSwitcher";
 
 const EditNote = ({ deleteMutate, mutate, setFavorite, note }) => {
   const iconClasses =

@@ -1,16 +1,15 @@
 import { createContext, useState, useEffect } from "react";
 import { account, ID } from "../appwrite/appwriteConfig";
-import { redirect } from "@tanstack/react-router";
 
 const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<null | object>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const checkLoggedInUser = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         const session = await account.get();
         setIsLoading(false);
         setUser(session);
@@ -79,14 +78,11 @@ const AuthProvider = ({ children }) => {
 
       if (res?.userId) {
         setIsLoading(false);
+        window.location.href = import.meta.env.VITE_REDIRECT_URL_LOCAL; // Replace with your target URL
+
         // throw redirect({
         //   to: "/dashboard",
-        //   search: {
-        //     // Use the current location to power a redirect after login
-        //     // (Do not use `router.state.resolvedLocation` as it can
-        //     // potentially lag behind the actual current location)
-        //     redirect: location.href,
-        //   },
+
         // });
       }
 

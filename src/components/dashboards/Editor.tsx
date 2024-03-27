@@ -9,7 +9,7 @@ import { Block, BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import "@blocknote/react/style.css";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
-import SkeletonLoading from "../SkeletonLoading";
+import SkeletonLoading from "../shared/SkeletonLoading";
 
 const Editor = ({ setBlocks, note, isLoading, id }) => {
   const [initialContent, setInitialContent] = useState<Block[]>([]);
@@ -40,7 +40,7 @@ const Editor = ({ setBlocks, note, isLoading, id }) => {
   }, [parsedContent, note, id]);
 
   return (
-    <>
+    <div className="z-10">
       <BlockNoteView
         onChange={() => {
           // Saves the document JSON to state.
@@ -59,7 +59,7 @@ const Editor = ({ setBlocks, note, isLoading, id }) => {
         theme={theme == "light" ? lightDefaultTheme : darkDefaultTheme}
         editor={editor}
       />
-    </>
+    </div>
   );
 };
 
