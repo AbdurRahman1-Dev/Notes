@@ -25,8 +25,6 @@ const AuthProvider = ({ children }) => {
     checkLoggedInUser();
   }, []);
 
-  console.log(user);
-
   // const loginWithGoogle = async () => {
   //   try {
   //     // Use Appwrite to create a new session with Google access token
