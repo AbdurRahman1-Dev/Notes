@@ -1,9 +1,27 @@
-import { Accordion, AccordionItem, Button } from "@nextui-org/react";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronRight, Star } from "lucide-react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
+import { Link } from "@tanstack/react-router";
+import { ChevronRight } from "lucide-react";
 import SkeletonLoading from "../shared/SkeletonLoading";
+import NewData from "../../@types/note";
+import React from "react";
 
-const NotesFolder = ({ notes, isError, isLoading, type, icon, keys }) => {
+interface NotesFolderType {
+  notes: NewData[];
+  isError: boolean;
+  isLoading: boolean;
+  type: string | undefined;
+  icon: JSX.Element;
+  keys: string;
+}
+
+const NotesFolder: React.FC<NotesFolderType> = ({
+  notes,
+  isError,
+  isLoading,
+  type,
+  icon,
+  keys,
+}) => {
   // items classes
   // const itemClasses = {
   //   base: "py-0 w-full ",
@@ -56,7 +74,7 @@ const NotesFolder = ({ notes, isError, isLoading, type, icon, keys }) => {
                 <li key={note?.$id} className="w-full">
                   <Link
                     activeProps={{ className: "bg-primary" }}
-                    to={`/dashboard/${note?.$id}`}
+                    to={`/dashboard/${note?.$id}` as string}
                     className={`w-full hover:bg-primary p-2 flex flex-1  items-center gap-1  rounded-md duration-250 `}
                   >
                     <ChevronRight size={23} />

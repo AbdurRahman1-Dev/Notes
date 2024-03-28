@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { CirclePlus, Home, Search } from "lucide-react";
+import { CirclePlus, Home } from "lucide-react";
 import { useMutation, useQuery } from "react-query";
 import {
   deleteNotes,
@@ -13,9 +13,10 @@ import EditNote from "./EditNote";
 import { useState } from "react";
 import SearchModal from "./SearchModal";
 import toast from "react-hot-toast";
+import NewData from "../../@types/note";
 
 const MobileBottomMenu = () => {
-  const { id } = useParams();
+  const { id } = useParams({ from: "/_dashboard/dashboard/$id" });
   const navigate = useNavigate();
 
   // get single note
@@ -34,7 +35,7 @@ const MobileBottomMenu = () => {
       });
       toast.success("Successfully Created!");
       navigate({
-        to: `/dashboard/${data?.$id}`,
+        to: `/dashboard/${data?.$id}` as string,
       });
     },
   });
@@ -43,7 +44,7 @@ const MobileBottomMenu = () => {
   // let newData = {
   //   favorite: favorite,
   // };
-  const { mutate: updateMuate, isLoading: isNoteLoading } = useMutation({
+  const { mutate: updateMuate } = useMutation({
     mutationKey: "notes",
     mutationFn: () => updateNotes(id, { favorite }),
     onSuccess: () => {
@@ -53,7 +54,7 @@ const MobileBottomMenu = () => {
     },
   });
 
-  const { mutate: deleteMutate, isLoading: loadingDelete } = useMutation({
+  const { mutate: deleteMutate } = useMutation({
     mutationKey: "notes",
     mutationFn: () => deleteNotes(id),
     onSuccess: () => {
@@ -94,7 +95,7 @@ const MobileBottomMenu = () => {
               deleteMutate={deleteMutate}
               mutate={updateMuate}
               setFavorite={setFavorite}
-              note={note}
+              note={note as NewData | undefined}
             />
           </span>
         </li>{" "}

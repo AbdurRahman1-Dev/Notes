@@ -1,18 +1,32 @@
 import { createContext, useState, useEffect } from "react";
 import { account, ID } from "../appwrite/appwriteConfig";
+import { AuthContextType, UserValue } from "../@types/user";
 
-const AuthContext = createContext(null);
+// const AuthContext = createContext<UserValue | object | null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
+// const AuthContext = createContext<AuthContextType | null>({
+//   user: null,
+//   isLoading: true,
+//   login: () => {},
+//   logout: () => {},
+//   createAccount: () => {},
+// });
 
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState<null | object>(null);
+// const AuthContext = createContext(null);
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<null | UserValue>(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const checkLoggedInUser = async () => {
       setIsLoading(true);
       try {
-        const session = await account.get();
+        const currentUser = await account.get();
         setIsLoading(false);
-        setUser(session);
+        setUser(currentUser);
       } catch (error) {
         setIsLoading(false);
         setUser(null);

@@ -1,17 +1,14 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Chip,
-  Divider,
-} from "@nextui-org/react";
+import { Card, CardFooter, CardHeader, Divider } from "@nextui-org/react";
 import { Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
-const RecentNoteCard = ({ recentNotes }) => {
+import NewData from "../../@types/note";
+
+interface RecentNoteCardProps {
+  recentNotes: NewData[] | undefined;
+}
+const RecentNoteCard: React.FC<RecentNoteCardProps> = ({ recentNotes }) => {
   return (
     <div className="my-5 ">
       <Swiper
@@ -42,7 +39,7 @@ const RecentNoteCard = ({ recentNotes }) => {
             <Card className="max-w-[120px] md:min-w-[200px] w-full shadow-small">
               <CardHeader className="flex gap-3">
                 <div className="flex flex-col">
-                  <Link to={`/dashboard/${note?.$id}`}>
+                  <Link to={`/dashboard/${note?.$id}` as string}>
                     {" "}
                     <p className="text-sm md:text-lg text-primary">
                       {note?.title === ""
@@ -57,7 +54,7 @@ const RecentNoteCard = ({ recentNotes }) => {
                   </span>
                 </div>
               </CardHeader>
-              <Divider />
+              <Divider className="hidden md:block" />
               {/* <CardBody className="hidden md:block">
                 {note?.tags?.map((tag, index) => (
                   <Chip key={index} size="sm" color="primary">
@@ -67,7 +64,7 @@ const RecentNoteCard = ({ recentNotes }) => {
               </CardBody>
               <Divider /> */}
               <CardFooter className="hidden md:block">
-                <Link to={`/dashboard/${note?.$id}`}>
+                <Link to={`/dashboard/${note?.$id}` as string}>
                   <ExternalLink size={20} />
                 </Link>
               </CardFooter>

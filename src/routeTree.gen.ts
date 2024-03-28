@@ -12,7 +12,6 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SigninImport } from './routes/signin'
-import { Route as ProfileImport } from './routes/profile'
 import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardDashboardIndexImport } from './routes/_dashboard/dashboard/index'
@@ -22,11 +21,6 @@ import { Route as DashboardDashboardIdImport } from './routes/_dashboard/dashboa
 
 const SigninRoute = SigninImport.update({
   path: '/signin',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ProfileRoute = ProfileImport.update({
-  path: '/profile',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -62,10 +56,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
-    '/profile': {
-      preLoaderRoute: typeof ProfileImport
-      parentRoute: typeof rootRoute
-    }
     '/signin': {
       preLoaderRoute: typeof SigninImport
       parentRoute: typeof rootRoute
@@ -89,7 +79,6 @@ export const routeTree = rootRoute.addChildren([
     DashboardDashboardIdRoute,
     DashboardDashboardIndexRoute,
   ]),
-  ProfileRoute,
   SigninRoute,
 ])
 

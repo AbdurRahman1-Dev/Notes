@@ -1,6 +1,9 @@
 import { Skeleton } from "@nextui-org/react";
 
-const SkeletonLoading = ({ classes }) => {
+interface SkeletonLoadingProps {
+  classes: React.ReactNode;
+}
+const SkeletonLoading: React.FC<SkeletonLoadingProps> = ({ classes }) => {
   return (
     <div className="w-full flex items-center gap-3">
       {/* <div>

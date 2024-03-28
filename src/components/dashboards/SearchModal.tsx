@@ -19,6 +19,7 @@ import SkeletonLoading from "../shared/SkeletonLoading";
 const SearchModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [text, setText] = useState("");
+  console.log(text);
 
   const {
     mutate,
@@ -99,9 +100,9 @@ const SearchModal = () => {
                 ) : (
                   searchedNotes?.documents?.map((note) => (
                     <Link
-                      onClick={() => onOpenChange(!isOpen)}
+                      onClick={() => onOpenChange()}
                       key={note?.$id}
-                      to={`/dashboard/${note?.$id}`}
+                      to={`/dashboard/${note?.$id}` as string}
                     >
                       <div className="flex  justify-between items-center p-2  rounded-md bg-secondarybg hover:bg-primary duration-300">
                         <h3 className="text-sm md:text-xl font-medium   flex flex-col gap-1">

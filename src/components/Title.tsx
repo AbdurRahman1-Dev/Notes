@@ -1,7 +1,13 @@
-import { Input } from "@nextui-org/react";
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+import NewData from "../@types/note";
 
-const Title = ({ setTitle, mutate, note }) => {
+interface TitleType {
+  mutate: () => void;
+  setTitle: Dispatch<SetStateAction<string>>;
+  note: NewData;
+}
+
+const Title: React.FC<TitleType> = ({ setTitle, mutate, note }) => {
   const textareaRef = useRef(null);
   const [isDefault, setIsDefault] = useState(false);
 
@@ -28,7 +34,6 @@ const Title = ({ setTitle, mutate, note }) => {
               clearTimeout(handler);
             };
           }}
-          type="textarea"
           placeholder="Untitled"
           className="w-full border-0 h-auto bg-background p-1 text-2xl md:text-4xl font-semibold focus:border-0 border-none outline-0 overflow-hidden"
           name="title"
@@ -49,7 +54,6 @@ const Title = ({ setTitle, mutate, note }) => {
               clearTimeout(handler);
             };
           }}
-          type="text"
           placeholder="Untitled"
           className="w-full border-0 h-auto bg-background p-1 text-2xl md:text-4xl font-semibold focus:border-0 border-none outline-0 overflow-hidden"
           name="title"

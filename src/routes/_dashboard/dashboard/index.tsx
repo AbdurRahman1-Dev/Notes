@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { createFileRoute } from "@tanstack/react-router";
 import { getNotes } from "../../../api/notes";
 import { useQuery } from "react-query";
@@ -8,21 +9,20 @@ import AllFilterNotes from "../../../components/dashboards/AllFilterNotes";
 
 import PrivateAuth from "../../../context/PrivateAuth";
 import { FileHeart, GitCompareArrows, ReceiptText } from "lucide-react";
+import React from "react";
+import NewData from "../../../@types/note";
 
 export const Route = createFileRoute("/_dashboard/dashboard/")({
   // beforeLoad: async ({ context }) => {
-  //   console.log("cont", context);
-
+  //   // console.log("cont", context);
   //   // const { user } = useContext(AuthContext);
-  //   if (context?.user) {
-  //     throw redirect({
-  //       to: "/signin",
-  //     });
-  //   }
+  //   // if (context?.user) {
+  //   //   throw redirect({
+  //   //     to: "/signin",
+  //   //   });
+  //   // }
   // },
-  // loader: async () => {
-  //   return <Auth />;
-  // },
+
   component: () => (
     <PrivateAuth>
       <Dashboard />
@@ -40,11 +40,12 @@ const Dashboard = () => {
   } = useQuery(["notes"], async () => await getNotes(), {});
 
   // recent Notes
+
   const recentNotes = notes && [...notes?.documents]?.reverse().slice(0, 6);
 
   // favorites
   const favoriteNotes = notes?.documents?.filter(
-    (note) => note?.favorite
+    (note) => note?.favorite as NewData[]
   ).length;
 
   if (isError) {
@@ -110,17 +111,33 @@ const Dashboard = () => {
       {/* filter notes */}
 
       <section>
-        <AllFilterNotes
-          notes={recentNotes}
-          isError={isError}
-          isLoading={isLoading}
-        />
+        {recentNotes && (
+          <AllFilterNotes
+            notes={recentNotes}
+            isError={isError}
+            isLoading={isLoading}
+          />
+        )}
       </section>
     </div>
   );
 };
 
-const Details = ({ title, icon, iconOp, value, isLoading }) => {
+interface DetailsType {
+  title: string;
+  icon: JSX.Element;
+  iconOp: JSX.Element;
+  value: number | string | undefined;
+  isLoading: boolean;
+}
+
+const Details: React.FC<DetailsType> = ({
+  title,
+  icon,
+  iconOp,
+  value,
+  isLoading,
+}) => {
   return (
     <div className="w-full p-2 md:p-4 bg-gray-200 dark:bg-secondarybg rounded-md md:space-y-3">
       {isLoading ? (

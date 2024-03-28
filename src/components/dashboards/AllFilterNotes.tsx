@@ -1,14 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@nextui-org/button";
+import { Card, CardFooter, CardHeader, Divider } from "@nextui-org/react";
 import {
-  Autocomplete,
-  AutocompleteItem,
-  Card,
-  CardFooter,
-  CardHeader,
-  Divider,
-} from "@nextui-org/react";
-import {
-  ChevronRight,
   ExternalLink,
   Grid,
   LayoutList,
@@ -18,14 +11,27 @@ import {
 import SkeletonLoading from "../shared/SkeletonLoading";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import NewData from "../../@types/note";
 
-const AllFilterNotes = ({ notes, isError, isLoading }) => {
+interface AllFilterNotesType {
+  notes: NewData[];
+  isError: boolean;
+  isLoading: boolean;
+}
+
+const AllFilterNotes: React.FC<AllFilterNotesType> = ({
+  notes,
+  isError,
+  isLoading,
+}) => {
   // categories
-  const categorys = ["personal", "work", "study", "ideas", "health"];
+  // const categorys = ["personal", "work", "study", "ideas", "health"];
   if (isError) {
     return <p>Something Went Wrong</p>;
   }
-  const [layout, setLayout] = useState("grid");
+
+  type LayoutType = "grid" | "list";
+  const [layout, setLayout] = useState<LayoutType>("grid");
 
   return (
     <div className="space-y-3">
@@ -40,25 +46,6 @@ const AllFilterNotes = ({ notes, isError, isLoading }) => {
 
               <TableProperties size={20} />
             </Button>
-            {/* <Autocomplete
-              // defaultInputValue={note?.category}
-              onSelect={(e) => {
-                // const dataPid = e.currentTarget.getAttribute("data-pid");
-                // setCategory(e.target.value);
-              }}
-              size="sm"
-              // data-pid={filNote?.$id}
-              label="Select category"
-              // className="max-w-xs"
-            >
-              {categorys?.map((category) => {
-                return (
-                  <AutocompleteItem key={category} value={category}>
-                    {category}
-                  </AutocompleteItem>
-                );
-              })}
-            </Autocomplete> */}
           </div>
 
           <div>
@@ -100,7 +87,7 @@ const AllFilterNotes = ({ notes, isError, isLoading }) => {
                     <div className="flex flex-col w-full">
                       <Link
                         className="flex justify-between w-full items-center"
-                        to={`/dashboard/${note?.$id}`}
+                        to={`/dashboard/${note?.$id}` as string}
                       >
                         {" "}
                         <p className="text-sm md:text-lg text-primary ">
@@ -127,7 +114,7 @@ const AllFilterNotes = ({ notes, isError, isLoading }) => {
                     <p className="text-xs md:text-sm text-gray-400 ">
                       Category: {note?.category ? note?.category : "N/A"}{" "}
                     </p>
-                    <Link to={`/dashboard/${note?.$id}`}>
+                    <Link to={`/dashboard/${note?.$id}` as string}>
                       <ExternalLink size={20} />
                     </Link>
                   </CardFooter>

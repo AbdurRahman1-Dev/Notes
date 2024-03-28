@@ -4,28 +4,23 @@ import {
   useParams,
 } from "@tanstack/react-router";
 import Editor from "../../../components/dashboards/Editor";
-import { Button, Spinner } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { Save, Star } from "lucide-react";
-import { Block } from "@blocknote/core";
-import { useContext, useEffect, useState } from "react";
+import { Block, PartialBlock } from "@blocknote/core";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../../../main";
-import {
-  deleteNotes,
-  getNotes,
-  getSingleNote,
-  updateNotes,
-} from "../../../api/notes";
+import { deleteNotes, getSingleNote, updateNotes } from "../../../api/notes";
 import { ThemeSwitcher } from "../../../components/shared/ThemeSwitcher";
 import EditNote from "../../../components/dashboards/EditNote";
-
 import Title from "../../../components/Title";
-
 import SkeletonLoading from "../../../components/shared/SkeletonLoading";
 import SelectCategory from "../../../components/dashboards/SelectCategory";
 import { AuthContext } from "../../../context/AuthContext";
 import PrivateAuth from "../../../context/PrivateAuth";
 import toast from "react-hot-toast";
+import NewData from "../../../@types/note";
+import { AuthContextType } from "../../../@types/user";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
   component: () => (
@@ -36,9 +31,9 @@ export const Route = createFileRoute("/_dashboard/dashboard/$id")({
 });
 
 export default function ViewNote() {
-  const { id } = useParams();
+  const { id } = useParams({ from: "/_dashboard/dashboard/$id" });
   const navigate = useNavigate();
-  const { user, isLoading: loading } = useContext(AuthContext);
+  const { user } = useContext<AuthContextType>(AuthContext);
   // // get all note
   // const { data: allNote } = useQuery("notes", getNotes, {});
 
@@ -67,7 +62,7 @@ export default function ViewNote() {
   const [blocks, setBlocks] = useState<Block[]>([]);
 
   // new data
-  let newData = {
+  const newData: NewData = {
     title,
     // parentID: parentID,
     tags: ["text"],
@@ -87,7 +82,7 @@ export default function ViewNote() {
     },
   });
 
-  const { mutate: deleteMutate, isLoading: loadingDelete } = useMutation({
+  const { mutate: deleteMutate } = useMutation({
     mutationKey: "notes",
     mutationFn: () => deleteNotes(id),
     onSuccess: () => {
@@ -103,58 +98,57 @@ export default function ViewNote() {
 
   return (
     <main>
-      <div className="relative  z-50 w-full h-full">
-        <div className="flex  justify-between items-center mb-5  py-3 bg-background sticky top-0 left-0 ">
-          <span className="text-sm md:text-base">
-            {" "}
-            {note?.title === ""
-              ? "Untitled"
-              : note?.title?.length > 25
-                ? note?.title?.slice(0, 13) + "..."
-                : note?.title}
-          </span>
+      <div className="flex  justify-between items-center mb-5  py-3 bg-background fixed w-full z-50 md:w-[77%] top-0 right-0 px-2 md:px-0 shadow-md md:shadow-none">
+        <span className="text-sm md:text-base">
+          {" "}
+          {note?.title === ""
+            ? "Untitled"
+            : note?.title?.length > 25
+              ? note?.title?.slice(0, 13) + "..."
+              : note?.title}
+        </span>
 
-          <div className="flex items-center justify-between justify-items-center gap-2 ">
-            <div>
-              {note?.favorite ? <Star className="text-warning" /> : <Star />}
-            </div>
-            {/* Save Button */}
-            {isNoteLoading ? (
-              <Button size="sm" color="primary" isLoading>
-                Saving...
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                color="primary"
-                startContent={<Save />}
-                onClick={() => mutate()}
-              >
-                Save
-              </Button>
-            )}
+        <div className="flex items-center justify-between justify-items-center gap-2 ">
+          <div>
+            {note?.favorite ? <Star className="text-warning" /> : <Star />}
+          </div>
+          {/* Save Button */}
+          {isNoteLoading ? (
+            <Button size="sm" color="primary" isLoading>
+              Saving...
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              color="primary"
+              startContent={<Save />}
+              onClick={() => mutate()}
+            >
+              Save
+            </Button>
+          )}
 
-            <div className="hidden md:block">
-              <ThemeSwitcher />
-            </div>
-            <div className="hidden md:block">
-              <EditNote
-                deleteMutate={deleteMutate}
-                mutate={mutate}
-                setFavorite={setFavorite}
-                note={note}
-              />
-            </div>
+          <div className="hidden md:block">
+            <ThemeSwitcher />
+          </div>
+          <div className="hidden md:block">
+            <EditNote
+              deleteMutate={deleteMutate}
+              mutate={mutate}
+              setFavorite={setFavorite}
+              note={note}
+            />
           </div>
         </div>
       </div>
+
       {isLoading ? (
-        <div className=" space-y-5">
+        <div className=" space-y-5 mt-16 ">
           <SkeletonLoading classes={"h-4 w-full"} />
           <SkeletonLoading classes={"h-4 w-full"} />
         </div>
       ) : (
-        <div className="space-y-4 mb-5 ">
+        <div className="space-y-4 mb-5 mt-16 ">
           <Title setTitle={setTitle} mutate={mutate} note={note}></Title>
 
           <div>
@@ -175,7 +169,11 @@ export default function ViewNote() {
         </div>
       )}
 
-      <Editor setBlocks={setBlocks} note={note} isLoading={isLoading} id={id} />
+      <Editor
+        setBlocks={setBlocks as Dispatch<SetStateAction<PartialBlock[]>>}
+        note={note as NewData | object}
+        id={id as string}
+      />
     </main>
   );
 }

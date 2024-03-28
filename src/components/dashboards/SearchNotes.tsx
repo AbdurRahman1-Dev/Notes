@@ -1,4 +1,4 @@
-import { Button, Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import { Link } from "@tanstack/react-router";
 import { ExternalLink, Search } from "lucide-react";
 import { useState } from "react";

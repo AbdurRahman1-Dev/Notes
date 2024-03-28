@@ -6,12 +6,13 @@ import NotesFolder from "./NotesFolder";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { queryClient } from "../../main";
 import SearchModal from "./SearchModal";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
+import { AuthContextType } from "../../@types/user";
 
-const Sidebar = () => {
-  const { user, logout } = useContext(AuthContext);
+const Sidebar: React.FC = () => {
+  const { user, logout } = useContext<AuthContextType>(AuthContext);
   const navigate = useNavigate();
   const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
 
@@ -23,7 +24,7 @@ const Sidebar = () => {
         queryKey: ["notes"],
       });
       toast.success("Successfully created");
-      navigate({
+      navigate<string>({
         to: `/dashboard/${data?.$id}`,
       });
     },

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "@blocknote/core/fonts/inter.css";
 import {
   BlockNoteView,
@@ -7,13 +8,27 @@ import {
 } from "@blocknote/react";
 import { Block, BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import "@blocknote/react/style.css";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  Suspense,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useTheme } from "next-themes";
 import SkeletonLoading from "../shared/SkeletonLoading";
+import NewData from "../../@types/note";
 
-const Editor = ({ setBlocks, note, isLoading, id }) => {
-  const [initialContent, setInitialContent] = useState<Block[]>([]);
-  const { theme, setTheme } = useTheme();
+type EditNote = {
+  setBlocks: Dispatch<SetStateAction<PartialBlock[]>>;
+  note: NewData | object;
+  id: string;
+};
+
+const Editor: React.FC<EditNote> = ({ setBlocks, note, id }) => {
+  const [, setInitialContent] = useState<Block[]>([]);
+  const { theme } = useTheme();
 
   const parsedContent = useMemo(() => {
     if (note?.contents) {
@@ -21,7 +36,7 @@ const Editor = ({ setBlocks, note, isLoading, id }) => {
       return JSON.parse(note?.contents);
     }
     return [];
-  }, [note, id]);
+  }, [note]);
 
   const editor: BlockNoteEditor = useCreateBlockNote({
     initialContent:
@@ -30,35 +45,37 @@ const Editor = ({ setBlocks, note, isLoading, id }) => {
 
   useEffect(() => {
     if (parsedContent?.length > 0) {
-      editor.replaceBlocks(editor?.document, parsedContent);
+      editor?.replaceBlocks(editor?.document, parsedContent);
     }
     // return () => {
     //   if (editor) {
     //     editor.replaceBlocks(editor?.document, parsedContent);
     //   }
     // };
-  }, [parsedContent, note, id]);
+  }, [parsedContent, note, id, editor]);
 
   return (
-    <div className="z-10">
-      <BlockNoteView
-        onChange={() => {
-          // Saves the document JSON to state.
-          setBlocks(editor?.document);
-          // const handler = setTimeout(() => {
-          //   mutate();
-          // }, 100);
+    <div className="-z-10 md:px-10 ">
+      <Suspense fallback={<SkeletonLoading classes={"h-10 w-full"} />}>
+        <BlockNoteView
+          onChange={() => {
+            // Saves the document JSON to state.
+            setBlocks(editor?.document);
+            // const handler = setTimeout(() => {
+            //   mutate();
+            // }, 100);
 
-          // return () => {
-          //   clearTimeout(handler);
-          // };
-        }}
-        // onMouseLeave={() => mutate()}
+            // return () => {
+            //   clearTimeout(handler);
+            // };
+          }}
+          // onMouseLeave={() => mutate()}
 
-        editable={true}
-        theme={theme == "light" ? lightDefaultTheme : darkDefaultTheme}
-        editor={editor}
-      />
+          editable={true}
+          theme={theme == "light" ? lightDefaultTheme : darkDefaultTheme}
+          editor={editor}
+        />
+      </Suspense>
     </div>
   );
 };

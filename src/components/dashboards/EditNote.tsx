@@ -7,8 +7,23 @@ import {
 } from "@nextui-org/react";
 import { CirclePlus, Ellipsis, Star, Trash2 } from "lucide-react";
 import { ThemeSwitcher } from "../shared/ThemeSwitcher";
+import { Dispatch, SetStateAction } from "react";
+import NewData from "../../@types/note";
 
-const EditNote = ({ deleteMutate, mutate, setFavorite, note }) => {
+interface EditNoteType {
+  deleteMutate: () => void;
+  mutate: () => void;
+  iconOp: JSX.Element;
+  setFavorite: Dispatch<SetStateAction<boolean>>;
+  note: NewData;
+}
+
+const EditNote: React.FC<EditNoteType> = ({
+  deleteMutate,
+  mutate,
+  setFavorite,
+  note,
+}) => {
   const iconClasses =
     "text-xl text-default-500 pointer-events-none flex-shrink-0";
 

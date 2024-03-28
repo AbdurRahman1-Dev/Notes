@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Button, Input, Tab, Tabs } from "@nextui-org/react";
 import { Eye, EyeOff, LogIn, UserPlus } from "lucide-react";
+import { AuthContextType } from "../@types/user";
 
 export const Route = createFileRoute("/signin")({
   component: () => <Signin />,
@@ -16,20 +17,24 @@ const Signin = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const { createAccount, login, isLoading: loading } = useContext(AuthContext);
+  const {
+    createAccount,
+    login,
+    isLoading: loading,
+  } = useContext<AuthContextType>(AuthContext);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     createAccount(email, password, name);
   }
 
-  async function handleLogin(e) {
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    login(email, password, name);
+    login(email, password);
   }
 
   return (
-    <div className="flex justify-center items-center h-screen text-center">
+    <div className="flex justify-center items-center h-screen text-center mx-1">
       <div className="flex items-center  flex-col">
         <Tabs aria-label="Options" color="primary" variant="bordered">
           <Tab
@@ -43,7 +48,9 @@ const Signin = () => {
           >
             <div className="space-y-4 bg-secondarybg p-7 rounded-md shadow-md">
               <div className="space-y-1">
-                <h2 className="text-4xl font-bold">Welcome to Notes</h2>
+                <h2 className="text-2xl md:text-4xl font-bold">
+                  Welcome to Notes
+                </h2>
                 <p className="font-semibold text-base">
                   Create Your Account First
                 </p>
@@ -80,14 +87,30 @@ const Signin = () => {
                   type={isVisible ? "text" : "password"}
                   className="max-w-xs"
                 />
-                <Button color="primary" size="lg" className="w-full">
-                  {" "}
-                  <input
-                    className="w-full h-full"
-                    type="submit"
-                    value={"create Account"}
-                  />
-                </Button>
+                {loading ? (
+                  <Button
+                    isLoading
+                    color="primary"
+                    size="lg"
+                    className="w-full"
+                  >
+                    {" "}
+                    <input
+                      className="w-full h-full"
+                      type="submit"
+                      value={"create Account"}
+                    />
+                  </Button>
+                ) : (
+                  <Button color="primary" size="lg" className="w-full">
+                    {" "}
+                    <input
+                      className="w-full h-full"
+                      type="submit"
+                      value={"create Account"}
+                    />
+                  </Button>
+                )}
               </form>
             </div>
           </Tab>
@@ -102,7 +125,9 @@ const Signin = () => {
           >
             <div className="space-y-4 bg-secondarybg p-7 rounded-md shadow-md">
               <div className="space-y-1">
-                <h2 className="text-4xl font-bold">Welcome to Notes</h2>
+                <h2 className="text-2xl md:text-4xl font-bold">
+                  Welcome to Notes
+                </h2>
                 <p className="font-semibold text-base">Login to Your Account</p>
               </div>
 

@@ -54,7 +54,7 @@ export async function getSearchNotes(text: string) {
   }
 }
 
-export async function getSingleNote(id) {
+export async function getSingleNote(id: string) {
   try {
     return await databases.getDocument(
       import.meta.env.VITE_DATABASE_ID,
@@ -66,7 +66,7 @@ export async function getSingleNote(id) {
   }
 }
 
-export async function updateNotes(id, newData) {
+export async function updateNotes(id: string, newData: object) {
   try {
     await databases.updateDocument(
       import.meta.env.VITE_DATABASE_ID,
@@ -79,7 +79,7 @@ export async function updateNotes(id, newData) {
   }
 }
 
-export async function deleteNotes(id) {
+export async function deleteNotes(id: string) {
   try {
     await databases.deleteDocument(
       import.meta.env.VITE_DATABASE_ID,
