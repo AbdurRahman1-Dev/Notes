@@ -111,7 +111,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (res?.userId) {
         setIsLoading(false);
-        window.location.href = import.meta.env.VITE_REDIRECT_URL_LOCAL; // Replace with your target URL
+        window.location.href = "/dashboard"; // Replace with your target URL
 
         // throw redirect({
         //   to: "/dashboard",
