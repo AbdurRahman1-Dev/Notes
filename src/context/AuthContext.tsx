@@ -9,6 +9,7 @@ import {
   UserType,
 } from "../@types/user";
 import { Models } from "appwrite";
+import toast from "react-hot-toast";
 
 type AuthContextType = UserType &
   LoginType &
@@ -129,6 +130,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return { login: true };
     } catch (error) {
       setIsLoading(false);
+      toast.error("Something Went Wrong");
       console.error("Login Error", error);
     }
   };
@@ -141,6 +143,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Update user state to null
       setUser(null);
     } catch (error) {
+      toast.error("Something Went Wrong");
       console.error("Error logging out:", error);
     }
   };
@@ -159,6 +162,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       setIsLoading(false);
+      toast.error("Something Went Wrong");
       console.error(error);
     }
   };
