@@ -13,9 +13,8 @@ import NewData from "../../@types/note";
 interface EditNoteType {
   deleteMutate: () => void;
   mutate: () => void;
-  iconOp: JSX.Element;
   setFavorite: Dispatch<SetStateAction<boolean>>;
-  note: NewData;
+  note: NewData | undefined;
 }
 
 const EditNote: React.FC<EditNoteType> = ({

@@ -20,7 +20,6 @@ import { AuthContext } from "../../../context/AuthContext";
 import PrivateAuth from "../../../context/PrivateAuth";
 import toast from "react-hot-toast";
 import NewData from "../../../@types/note";
-import { AuthContextType } from "../../../@types/user";
 
 export const Route = createFileRoute("/_dashboard/dashboard/$id")({
   component: () => (
@@ -33,7 +32,7 @@ export const Route = createFileRoute("/_dashboard/dashboard/$id")({
 export default function ViewNote() {
   const { id } = useParams({ from: "/_dashboard/dashboard/$id" });
   const navigate = useNavigate();
-  const { user } = useContext<AuthContextType>(AuthContext);
+  const { user } = useContext(AuthContext);
   // // get all note
   // const { data: allNote } = useQuery("notes", getNotes, {});
 
@@ -136,7 +135,7 @@ export default function ViewNote() {
               deleteMutate={deleteMutate}
               mutate={mutate}
               setFavorite={setFavorite}
-              note={note}
+              note={note as NewData | undefined}
             />
           </div>
         </div>
@@ -149,12 +148,16 @@ export default function ViewNote() {
         </div>
       ) : (
         <div className="space-y-4 mb-5 mt-16 ">
-          <Title setTitle={setTitle} mutate={mutate} note={note}></Title>
+          <Title
+            setTitle={setTitle}
+            mutate={mutate}
+            note={note as NewData | undefined}
+          ></Title>
 
           <div>
             <SelectCategory
               mutate={mutate}
-              note={note}
+              note={note as NewData | undefined}
               setCategory={setCategory}
             />
             {/* <ParentIdSelect
@@ -171,7 +174,7 @@ export default function ViewNote() {
 
       <Editor
         setBlocks={setBlocks as Dispatch<SetStateAction<PartialBlock[]>>}
-        note={note as NewData | object}
+        note={note as NewData | undefined}
         id={id as string}
       />
     </main>

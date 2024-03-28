@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { account, ID } from "../appwrite/appwriteConfig";
 import { AuthContextType, UserValue } from "../@types/user";
+import { Models } from "appwrite";
 
 // const AuthContext = createContext<UserValue | object | null>(null);
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -18,11 +19,10 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<null | UserValue>(null);
+  const [user, setUser] = useState<null | UserValue | Models.Preferences>(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const checkLoggedInUser = async () => {
-      setIsLoading(true);
       try {
         const currentUser = await account.get();
         setIsLoading(false);

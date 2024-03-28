@@ -6,7 +6,7 @@ import NewData from "../../@types/note";
 import React from "react";
 
 interface NotesFolderType {
-  notes: NewData[];
+  notes: NewData[] | undefined;
   isError: boolean;
   isLoading: boolean;
   type: string | undefined;
@@ -68,7 +68,7 @@ const NotesFolder: React.FC<NotesFolderType> = ({
         >
           {isLoading ? (
             <SkeletonLoading classes={"h-3 w-full"} />
-          ) : notes?.length > 0 ? (
+          ) : notes && notes?.length > 0 ? (
             <ul className="flex flex-col gap-2 flex-1 my-2">
               {notes?.map((note) => (
                 <li key={note?.$id} className="w-full">

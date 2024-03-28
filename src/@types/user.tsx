@@ -1,3 +1,5 @@
+import { Models } from "appwrite";
+
 export type UserValue = {
   $createdAt: string;
   $id: string;
@@ -16,7 +18,7 @@ export type UserValue = {
 };
 
 export type AuthContextType = {
-  user?: UserValue | null;
+  user?: UserValue | null | Models.Preferences;
   isLoading: boolean;
   login: (username: string, password: string) => void;
   logout: () => void;

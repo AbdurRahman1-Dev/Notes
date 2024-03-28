@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Button, Input, Tab, Tabs } from "@nextui-org/react";
 import { Eye, EyeOff, LogIn, UserPlus } from "lucide-react";
-import { AuthContextType } from "../@types/user";
 
 export const Route = createFileRoute("/signin")({
   component: () => <Signin />,
@@ -17,11 +16,7 @@ const Signin = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const {
-    createAccount,
-    login,
-    isLoading: loading,
-  } = useContext<AuthContextType>(AuthContext);
+  const { createAccount, login, isLoading: loading } = useContext(AuthContext);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

@@ -22,12 +22,12 @@ import NewData from "../../@types/note";
 
 type EditNote = {
   setBlocks: Dispatch<SetStateAction<PartialBlock[]>>;
-  note: NewData | object;
+  note: NewData | undefined;
   id: string;
 };
 
 const Editor: React.FC<EditNote> = ({ setBlocks, note, id }) => {
-  const [, setInitialContent] = useState<Block[]>([]);
+  const [, setInitialContent] = useState<Block[] | string>([]);
   const { theme } = useTheme();
 
   const parsedContent = useMemo(() => {

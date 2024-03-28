@@ -7,7 +7,7 @@ const categorys = ["personal", "work", "study", "ideas", "health"];
 interface SelectCategoryType {
   mutate: () => void;
   setCategory: Dispatch<SetStateAction<string>>;
-  note: NewData;
+  note: NewData | undefined;
 }
 
 const SelectCategory: React.FC<SelectCategoryType> = ({

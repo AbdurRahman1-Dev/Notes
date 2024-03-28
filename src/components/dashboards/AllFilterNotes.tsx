@@ -14,7 +14,7 @@ import { useState } from "react";
 import NewData from "../../@types/note";
 
 interface AllFilterNotesType {
-  notes: NewData[];
+  notes: NewData[] | undefined;
   isError: boolean;
   isLoading: boolean;
 }
@@ -104,7 +104,9 @@ const AllFilterNotes: React.FC<AllFilterNotesType> = ({
                         )}
                       </Link>
                       <p className="text-[10px] md:text-sm  text-default-500">
-                        {new Date(note?.$createdAt).toDateString()}
+                        {new Date(
+                          note?.$createdAt as string | number | Date
+                        ).toDateString()}
                       </p>
                     </div>
                   </CardHeader>

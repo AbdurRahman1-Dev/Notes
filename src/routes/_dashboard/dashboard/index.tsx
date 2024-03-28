@@ -73,7 +73,9 @@ const Dashboard = () => {
           </div>
         ) : (
           <div>
-            <RecentNoteCard recentNotes={recentNotes} />
+            <RecentNoteCard
+              recentNotes={recentNotes as NewData[] | undefined}
+            />
           </div>
         )}
       </section>
@@ -111,13 +113,11 @@ const Dashboard = () => {
       {/* filter notes */}
 
       <section>
-        {recentNotes && (
-          <AllFilterNotes
-            notes={recentNotes}
-            isError={isError}
-            isLoading={isLoading}
-          />
-        )}
+        <AllFilterNotes
+          notes={recentNotes as NewData[] | undefined}
+          isError={isError}
+          isLoading={isLoading}
+        />
       </section>
     </div>
   );

@@ -4,11 +4,11 @@ import NewData from "../@types/note";
 interface TitleType {
   mutate: () => void;
   setTitle: Dispatch<SetStateAction<string>>;
-  note: NewData;
+  note: NewData | undefined;
 }
 
 const Title: React.FC<TitleType> = ({ setTitle, mutate, note }) => {
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isDefault, setIsDefault] = useState(false);
 
   const handleResize = () => {

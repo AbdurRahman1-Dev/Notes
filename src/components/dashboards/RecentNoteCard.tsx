@@ -50,7 +50,9 @@ const RecentNoteCard: React.FC<RecentNoteCardProps> = ({ recentNotes }) => {
                     </p>
                   </Link>
                   <span className="text-[10px] md:text-sm  text-default-500">
-                    {new Date(note?.$createdAt).toDateString()}
+                    {new Date(
+                      note?.$createdAt as string | number | Date
+                    ).toDateString()}
                   </span>
                 </div>
               </CardHeader>

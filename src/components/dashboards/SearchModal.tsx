@@ -19,7 +19,6 @@ import SkeletonLoading from "../shared/SkeletonLoading";
 const SearchModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [text, setText] = useState("");
-  console.log(text);
 
   const {
     mutate,

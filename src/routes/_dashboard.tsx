@@ -4,14 +4,13 @@ import MobileBottomMenu from "../components/dashboards/MobileBottomMenu";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { Spinner } from "@nextui-org/react";
-import { AuthContextType } from "../@types/user";
 
 export const Route = createFileRoute("/_dashboard")({
   component: Dashboard,
 });
 
 export default function Dashboard() {
-  const { isLoading: loading } = useContext<AuthContextType>(AuthContext);
+  const { isLoading: loading } = useContext(AuthContext);
 
   return (
     <>

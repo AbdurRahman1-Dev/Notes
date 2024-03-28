@@ -9,10 +9,10 @@ import SearchModal from "./SearchModal";
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
-import { AuthContextType } from "../../@types/user";
+import NewData from "../../@types/note";
 
 const Sidebar: React.FC = () => {
-  const { user, logout } = useContext<AuthContextType>(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
 
@@ -71,7 +71,7 @@ const Sidebar: React.FC = () => {
 
         <div className="h-screen mb-52">
           <NotesFolder
-            notes={favoriteNotes}
+            notes={favoriteNotes as NewData[] | undefined}
             isError={isError}
             isLoading={isLoading}
             type={"favorite"}
@@ -82,7 +82,7 @@ const Sidebar: React.FC = () => {
           {/* sidebar private list */}
 
           <NotesFolder
-            notes={privateNotes}
+            notes={privateNotes as NewData[] | undefined}
             isError={isError}
             isLoading={isLoading}
             type={"Private"}
