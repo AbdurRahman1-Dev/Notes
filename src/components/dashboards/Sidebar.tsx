@@ -12,7 +12,9 @@ import toast from "react-hot-toast";
 import NewData from "../../@types/note";
 
 const Sidebar: React.FC = () => {
+  // const { user, logout } = useContext<AuthContextType>(AuthContext);
   const { user, logout } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const { data: notes, isError, isLoading } = useQuery("notes", getNotes, {});
 

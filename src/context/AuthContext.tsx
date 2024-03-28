@@ -1,17 +1,38 @@
 import { createContext, useState, useEffect } from "react";
 import { account, ID } from "../appwrite/appwriteConfig";
-import { AuthContextType, UserValue } from "../@types/user";
+import {
+  // AuthContextType,
+  CreateAccountType,
+  IsLoadingType,
+  LoginType,
+  LogoutType,
+  UserType,
+} from "../@types/user";
 import { Models } from "appwrite";
 
+type AuthContextType = UserType &
+  LoginType &
+  LogoutType &
+  CreateAccountType &
+  IsLoadingType;
+
+const defaultValue = {
+  user: null,
+  login: () => Object, // Empty function for login
+  logout: () => Object, // Empty function for logout
+  createAccount: () => Object, // Empty function for createAccount
+  isLoading: true,
+} as AuthContextType;
+
 // const AuthContext = createContext<UserValue | object | null>(null);
-const AuthContext = createContext<AuthContextType | null>(null);
-// const AuthContext = createContext<AuthContextType | null>({
+const AuthContext = createContext<AuthContextType>(defaultValue);
+// const AuthContext = createContext<AuthContextType>({
 //   user: null,
-//   isLoading: true,
-//   login: () => {},
-//   logout: () => {},
-//   createAccount: () => {},
-// });
+//   login: () => {}, // Empty function for login
+//   logout: () => {}, // Empty function for logout
+//   createAccount: () => {}, // Empty function for createAccount
+//   isLoading: false,
+// })
 
 // const AuthContext = createContext(null);
 
@@ -19,7 +40,7 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<null | UserValue | Models.Preferences>(null);
+  const [user, setUser] = useState<null | object | Models.Preferences>(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const checkLoggedInUser = async () => {
