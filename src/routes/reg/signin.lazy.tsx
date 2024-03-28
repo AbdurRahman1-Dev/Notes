@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { Button, Input, Tab, Tabs } from "@nextui-org/react";
 import { Eye, EyeOff, LogIn, UserPlus } from "lucide-react";
 
-export const Route = createFileRoute("/signin")({
+export const Route = createFileRoute("/reg/signin")({
   component: () => <Signin />,
 });
 
